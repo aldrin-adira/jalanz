@@ -1,0 +1,19 @@
+Jalanz
+Copyright 2026 Aldrin Adira and Jalanz contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Jalanz uses data and software from third parties, each under its own licence:
+
+- Map and road data © OpenStreetMap contributors, available under the
+  Open Database License (ODbL): https://www.openstreetmap.org/copyright
+- Places data © Overture Maps Foundation (CDLA-Permissive-2.0, with
+  per-source licences such as Apache-2.0 and CC0-1.0)
+- Includes data from Foursquare Open Source Places © Foursquare Labs, Inc.,
+  Apache License 2.0 (where used)
+- Place names from Wikidata (CC0-1.0)
+- Toll rates sourced from Lembaga Lebuhraya Malaysia and highway operators;
+  estimates only. Crawled toll datasets are not part of this repository.
+
+Third-party software libraries keep their own licences; see each
+dependency's licence file once the code is added.
