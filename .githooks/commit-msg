@@ -1,0 +1,19 @@
+#!/bin/sh
+# Rejects commit messages that break 09-git-workflow.md §6.
+msg_file="$1"
+header=$(head -n1 "$msg_file")
+case "$header" in Merge*|merge\(*|Revert*) exit 0;; esac
+echo "$header" | grep -Eq '^(feat|fix|test|refactor|perf|data|docs|build|ci|style|chore|wip|revert)\([a-z0-9-]+\)!?: [a-z].*[^.]$' || {
+  echo "commit-msg: header must be '<type>(<scope>): <summary>' (see 09 §6.1)"; exit 1; }
+[ ${#header} -le 72 ] || { echo "commit-msg: header longer than 72 characters (see 09 §6.1)"; exit 1; }
+type=$(echo "$header" | sed -E 's/^([a-z]+).*/\1/')
+body=$(sed -n '3,$p' "$msg_file" | grep -v '^#')
+need="What: Testing:"
+[ "$type" != "style" ] && [ "$type" != "wip" ] && need="What: Why: How: Testing:"
+for s in $need; do
+  echo "$body" | grep -q "^$s" || { echo "commit-msg: missing '$s' section (see 09 §6.2)"; exit 1; }
+done
+if [ "$type" != "wip" ] && [ "$type" != "style" ] && [ "$type" != "chore" ] && [ "$type" != "build" ] && [ "$type" != "ci" ]; then
+  echo "$body" | grep -q '^Refs: .\+' || { echo "commit-msg: missing 'Refs:' trailer (see 09 §6)"; exit 1; }
+fi
+exit 0
