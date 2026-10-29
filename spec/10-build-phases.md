@@ -322,6 +322,10 @@ works.
 - `NavigationVoiceAssistantCapabilities` (Car App API 9) when stable (06 §4.4).
 - Android Automotive OS build (06 §1).
 - MLFF / single-lane free-flow updates and per-plaza payment hints (04 §2, E-15).
+- **Move hosting to a Malaysian-owned VPS** (e.g. Shinjiru, Exabytes, IPServerOne, ServerFreak; about RM60–110/month
+  for 4 GB, checked 29 Oct 2026) before anyone beyond the testers uses Jalanz. Product-owner rule: user personal
+  data only on Malaysian-owned servers in Malaysia; avoid products founded or based in Israel. The Docker Compose
+  stack (08 §6) must stay provider-neutral so this is a copy-and-repoint job.
 - **Public launch tasks:** Play production access (new personal accounts need a closed test with ≥ 12 testers
   for 14 days), DPO appointment and DPIA (NFR-02), 15-driver usability study (NFR-08), scaled deployment
   (03 §10), formal data arrangement with LLM (05 §3), legal review of licences (05 §1).

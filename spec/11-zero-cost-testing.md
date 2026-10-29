@@ -10,7 +10,7 @@ Facts checked 29 Oct 2026. `[VERIFY]` items could not be confirmed.
 
 | Item | Testing edition | Main plan (08 §5) |
 |---|---|---|
-| Server: Oracle Cloud Always Free, Malaysia West (Kulai) | RM0 | RM0 |
+| Server: Oracle Cloud Always Free, Malaysia West (Kulai) — testing period only; moves to a Malaysian-owned VPS before public launch (10 §13) | RM0 | RM0 |
 | Optional accounts: Firebase Authentication (Spark plan) | RM0 | RM0 |
 | Push: Firebase Cloud Messaging + Web Push | RM0 | RM0 |
 | Live traffic: TomTom free allowance, hard-capped in code (§7) | RM0 | RM0 |
