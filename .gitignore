@@ -1,0 +1,51 @@
+# Secrets and signing (never commit; see spec/09-git-workflow.md §10)
+.env
+.env.*
+!.env.example
+**/secrets/
+*.keystore
+*.jks
+local.properties
+google-services.json
+
+# Large generated map/routing/toll data
+*.pbf
+*.pmtiles
+*.mbtiles
+valhalla_tiles/
+**/valhalla_tiles/
+toll-bundle-*.sqlite*
+*.parquet
+
+# Android / Gradle / Kotlin
+build/
+.gradle/
+.kotlin/
+captures/
+*.apk
+*.aab
+*.iml
+.idea/
+.cxx/
+.externalNativeBuild/
+
+# Node / web
+node_modules/
+dist/
+.vite/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Tester data (never commit)
+**/drive-logs/
+*.gpx.private
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
