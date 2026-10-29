@@ -33,7 +33,7 @@ Not counted: your own phone, computer, car/head unit, mobile data, and any paid 
 | 06 §7 Play review | Android Auto quality review on Play | Not needed for sideloaded apps. Still follow 06 §4 rules so a later Play review passes |
 | 06 §4.3 `onAutoDriveEnabled` | Required for Play review | Optional (useful for demos); keep it if time allows |
 | 09 §8.2 Releases | Release bundle to Play internal testing | Signed APK to Firebase App Distribution + GitHub Release — §5 |
-| 10 Phase 0 WP 0.5 | Domain + HTTPS | DuckDNS + HTTPS — §6 |
+| 10 WP 1.18 (test server deploy) | Domain + HTTPS | DuckDNS + HTTPS — §6 (WP 0.5 now runs locally) |
 | 10 release WPs (1.19, 2.14, 3.11, 4.10, 5.10, 6.9, 7.10, 8.6) | Play upload; 3.11 includes Android Auto review | Run §5 pipeline; no Play review |
 | 10 §13 Public launch tasks | Play production access | Still applies — see §9 |
 
