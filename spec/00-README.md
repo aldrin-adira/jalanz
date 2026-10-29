@@ -16,7 +16,8 @@
 |---|---|
 | App name | **Jalanz** (from Malay *jalan*: road / to go) |
 | Display name on phone and Android Auto | Jalanz |
-| Package ID (applicationId) | **`io.github.aldrinadira.jalanz`** (proposed; hyphens are not allowed in package IDs, so `aldrin-adira` becomes `aldrinadira`). Product owner confirms before WP 0.3; **permanent** once testers install it. Keep it even if a domain is bought later. |
+| Package ID (applicationId) | **`io.github.aldrinadira.jalanz`** — confirmed 29 Oct 2026 (hyphens are not allowed in package IDs, so `aldrin-adira` becomes `aldrinadira`). **Permanent** once testers install it. |
+| Coverage | **Peninsular Malaysia only** for now — confirmed 29 Oct 2026. Sabah and Sarawak are a later expansion. |
 | Repository | https://github.com/aldrin-adira/jalanz (public) |
 | Licence | **Apache-2.0** (`LICENSE`, `NOTICE` at repo root) |
 | Testing server address | `jalanz.duckdns.org` — registered 29 Oct 2026 (11 §6). Planned upgrade: `jalanz.eu.org` before Phase 4 |

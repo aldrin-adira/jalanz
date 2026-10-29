@@ -9,6 +9,11 @@ This file replaces the roadmap sketch in 03 §11. **During the testing period, a
 
 ## 1. Rules for building in phases
 
+**Coverage: Peninsular Malaysia only** (confirmed 29 Oct 2026). Clip map tiles, routing graph, place index, search
+test list and toll plazas to Peninsular Malaysia. This also lowers server memory needs. Sabah and Sarawak become a
+later expansion (§13).
+
+
 1. Build phases **in order**. Phases 4 and 5 may run in parallel once Phase 3 is merged (they touch different
    modules), but everything else is sequential.
 2. Inside a phase, build WPs in the listed order unless "Depends on" says otherwise.
@@ -310,6 +315,8 @@ roads on 10 test routes; cluster works on at least one supporting head unit or e
 works.
 
 ## 13. Backlog (after Phase 8)
+
+- Expand coverage to Sabah and Sarawak (maps, search, routing; few tolls).
 
 - Opt-in probe traffic from users (03 §6 v2) once there are enough users.
 - `NavigationVoiceAssistantCapabilities` (Car App API 9) when stable (06 §4.4).
