@@ -34,7 +34,7 @@ Not counted: your own phone, computer, car/head unit, mobile data, and any paid 
 | 06 §4.3 `onAutoDriveEnabled` | Required for Play review | Optional (useful for demos); keep it if time allows |
 | 09 §8.2 Releases | Release bundle to Play internal testing | Signed APK to Firebase App Distribution + GitHub Release — §5 |
 | 10 Phase 0 WP 0.5 | Domain + HTTPS | DuckDNS + HTTPS — §6 |
-| 10 release WPs (1.18, 2.14, 3.11, 4.10, 5.10, 6.9, 7.10, 8.6) | Play upload; 3.11 includes Android Auto review | Run §5 pipeline; no Play review |
+| 10 release WPs (1.19, 2.14, 3.11, 4.10, 5.10, 6.9, 7.10, 8.6) | Play upload; 3.11 includes Android Auto review | Run §5 pipeline; no Play review |
 | 10 §13 Public launch tasks | Play production access | Still applies — see §9 |
 
 ## 3. Android developer verification (sideloading rules)
@@ -81,6 +81,8 @@ GitHub Actions (free):
 ```
 
 ## 6. Server address without a paid domain
+
+Applies from WP 1.18, when the test server is deployed. Until then the stack runs locally (10 §4, WP 0.5).
 
 1. `jalanz.duckdns.org` is registered (29 Oct 2026). Point it to the Oracle VM's public IP in the DuckDNS dashboard
    (the IP is fixed, so no updater script is needed). Use a **reserved** public IP in Oracle if available so the

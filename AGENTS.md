@@ -43,8 +43,8 @@ apply to every session, every agent and every tool.
 | Testing server address | Confirmed | `jalanz.duckdns.org` (upgrade to `jalanz.eu.org` planned before Phase 4) |
 | Package ID | Confirmed (2026-10-29) | `io.github.aldrinadira.jalanz` (permanent once installed) |
 | Coverage | Confirmed (2026-10-29) | **Peninsular Malaysia only** for now (search, routing, tolls, map packs). Sabah/Sarawak later |
-| Provider policy | Confirmed (2026-10-29) | Avoid products founded or based in Israel. **Testing period:** Oracle Cloud accepted. **Before public launch:** all user personal data (accounts, locations, shared trips) only on Malaysian-owned servers in Malaysia. Any new third-party service needs product-owner approval |
-| Hosting | Confirmed for testing (2026-10-29) | Oracle Cloud Always Free, Malaysia West (spec 08 §6, spec 11). Keep everything in Docker Compose so it can move to a Malaysian-owned VPS before public launch (spec 10 §13) |
+| Provider policy | Confirmed (2026-10-29) | Avoid products founded or based in Israel. **Testing period:** Oracle Cloud acceptable if used; Tailscale Funnel allowed for ad-hoc testing from the developer's PC. **Before public launch:** all user personal data (accounts, locations, shared trips) only on Malaysian-owned servers in Malaysia. Any new third-party service needs product-owner approval |
+| Hosting | Confirmed (2026-10-29) | **Local first:** the Docker Compose stack runs on the developer's PC until WP 1.18. **Decided at WP 1.18** (before release 0.1.0): Oracle Always Free if it cooperates, otherwise a Malaysian-owned VPS. Keep the stack provider-neutral |
 | Sign-in provider | **Open — needed before Phase 6** | Firebase (spec 08 default) is under review; alternatives: email-only sign-in in our own backend, or Keycloak |
 | Test phones and head units | **Open — needed before Phase 3** | — |
 
