@@ -41,9 +41,11 @@ apply to every session, every agent and every tool.
 | Licence | Confirmed | Apache-2.0 |
 | Testing budget | Confirmed | RM0 — `spec/11-zero-cost-testing.md` |
 | Testing server address | Confirmed | `jalanz.duckdns.org` (upgrade to `jalanz.eu.org` planned before Phase 4) |
-| Package ID | **Proposed — confirm before WP 0.3** | `io.github.aldrinadira.jalanz` (permanent once installed) |
-| Coverage | **Open** | Peninsular only, or Sabah and Sarawak too |
-| Sign-in provider | **Open — needed before Phase 6** | Firebase Authentication (spec 08 default) or self-hosted Keycloak (spec 12 §6) |
+| Package ID | Confirmed (2026-10-29) | `io.github.aldrinadira.jalanz` (permanent once installed) |
+| Coverage | Confirmed (2026-10-29) | **Peninsular Malaysia only** for now (search, routing, tolls, map packs). Sabah/Sarawak later |
+| Provider policy | **Open — being decided** | Product owner wants to avoid providers with strong Israel ties. Do **not** add new third-party services (hosting, sign-in, push, CI, distribution) until this is settled |
+| Hosting | **Open — needed before WP 0.5** | Oracle Cloud Always Free (spec 08) is under review because of the provider policy |
+| Sign-in provider | **Open — needed before Phase 6** | Firebase (spec 08 default) is under review; alternatives: email-only sign-in in our own backend, or Keycloak |
 | Test phones and head units | **Open — needed before Phase 3** | — |
 
 Do not decide an **Open** item yourself. Ask the product owner when a WP depends on it.

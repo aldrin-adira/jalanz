@@ -93,7 +93,7 @@ Every requirement traces to evidence in `01-research-findings.md` (`E-xx`) or is
 - Sending SMS or WhatsApp messages automatically (07 §7.2).
 
 ## 5. Open questions for the product owner
-1. Is v1 Peninsular only, or national (Sabah/Sarawak have few tolls but need maps)?
+1. ~~Is v1 Peninsular only, or national?~~ **Answered 29 Oct 2026: Peninsular Malaysia only for now.**
 2. Is this a non-commercial student/portfolio project or intended for public release? (Affects traffic-provider
    costs, DPO obligations and licensing choices.)
 3. Are the safeguards in 07 §8 enough, or should a standing link also require the recipient to confirm once before it works?
