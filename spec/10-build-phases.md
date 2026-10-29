@@ -113,8 +113,8 @@ they wait until there is something worth syncing.
 | 0.2 | `build/misc-ci-pipeline` | S | GitHub Actions: Gradle test + lint, pytest, web lint, commit-message check on every commit | CI green on an empty build |
 | 0.3 | `build/NFR-11-android-skeleton` | M | Gradle modules from 06 §2 (empty), version catalog, Compose app shell, Hilt, minSdk/targetSdk | App installs and shows a placeholder screen |
 | 0.4 | `build/misc-backend-skeleton` | S | Ktor app with `/health`, arm64 Docker image | `/health` returns 200 in a container |
-| 0.5 | `build/NFR-02-infra-compose` | M | Oracle VM in Malaysia West, Docker Compose with Caddy, api, Postgres/PostGIS, Valkey; domain + HTTPS; nightly backup | `https://<domain>/health` works from a phone |
-| 0.6 | `spike/C-03-valhalla-malaysia-arm64` | M | Build Valhalla tiles for the Malaysia/Singapore/Brunei extract on arm64; route KL→Penang; measure RAM and build time | Numbers recorded; works on the VM |
+| 0.5 | `build/NFR-02-infra-compose` | M | Docker Compose stack **running locally on the developer's PC**: Caddy, api, Postgres/PostGIS, Valkey (Valhalla, tiles and search added by later WPs). Same Compose file must later run unchanged on the test server (WP 1.18). Debug app builds reach it over home Wi-Fi (debug-only cleartext/network-security config for the PC's LAN address; release builds HTTPS only) | `curl http://<pc-lan-ip>/health` returns 200 from a phone on the same Wi-Fi |
+| 0.6 | `spike/C-03-valhalla-peninsular` | M | Build Valhalla tiles for **Peninsular Malaysia** (clip the Geofabrik Malaysia/Singapore/Brunei extract) on the local PC; route KL→Penang; measure RAM, disk and build time; check the image also exists for arm64 in case the test server is Arm | Numbers recorded; routes work locally |
 | 0.7 | `spike/C-05-pmtiles-malaysia` | S | Planetiler PMTiles build; light/dark MapLibre style with BM/EN labels | Map renders on a phone from our server |
 | 0.8 | `spike/FR-01-overture-poi-coverage` | M | Write `fixtures/search_test_list.csv` (≥ 300 Malaysian queries); DuckDB extract of Overture places; Typesense index; measure top-3 hit rate | Hit rate measured; gap list written |
 | 0.9 | `spike/FR-06-osm-toll-plaza-audit` | M | Compare OSM `barrier=toll_booth`/`highway=toll_gantry` nodes with LLM portal plaza list | % matched per highway recorded |
@@ -123,7 +123,7 @@ they wait until there is something worth syncing.
 | 0.12 | `spike/NFR-09-bm-tts` | S | Android TTS `ms-MY` quality on 3 common Malaysian phones | Decide: TTS only, or pre-recorded BM fallback |
 | 0.13 | `docs/misc-phase0-decisions` | S | Write spike results into 06 §5–6, 08 §6, 03 §5.3; remove resolved `[VERIFY]` tags | Spec updated and merged |
 
-**Exit criteria:** CI green; HTTPS `/health` on the Malaysian VM; every spike has a recorded decision; search hit
+**Exit criteria:** CI green; local Compose stack `/health` reachable from a phone on the same Wi-Fi; every spike has a recorded decision; search hit
 rate baseline known.
 
 **Not in this phase:** any user-facing feature.
@@ -152,7 +152,8 @@ class, switch on "avoid tolls", open a per-plaza toll breakdown with "rates as o
 | 1.15 | `feature/FR-01-search-ui` | M | Search screen, recents, favourites (Home/Work) stored locally | 02 FR-01 | 1.11, 1.14 |
 | 1.16 | `feature/FR-05-route-preview-ui` | M | Route cards (ETA, km, toll), avoid-tolls toggle, vehicle class picker (1–5), toll breakdown sheet with date and confidence, "no live traffic" label | 02 FR-05/06, 04 §8 | 1.12, 1.15 |
 | 1.17 | `feature/misc-crash-reporting` | S | ACRA → Ktor endpoint, coordinates stripped | 08 §6 | 1.13 |
-| 1.18 | `release/0.1.0` | S | Version bump, changelog, Play internal testing upload | 09 §8.2 | all |
+| 1.18 | `build/NFR-02-deploy-test-server` | M | **Hosting decided here** (Oracle Always Free if it cooperates, else a Malaysian-owned VPS ≈ RM60/month — product owner chooses). Deploy the same Compose stack, point `jalanz.duckdns.org` at it, HTTPS via Caddy, nightly backups, firewall ports 80/443 | 08 §6, 11 §6 | 1.17 |
+| 1.19 | `release/0.1.0` | S | Version bump, changelog, distribution per 11 §5 | 09 §8.2 | all |
 
 **Exit criteria:** F1–F10 pass in app and server builds; 20 random entry/exit pairs match the official LLM
 calculator; ≥ 95 % of LLM-listed Peninsular plazas mapped (unmapped ones give confidence LOW, never a wrong

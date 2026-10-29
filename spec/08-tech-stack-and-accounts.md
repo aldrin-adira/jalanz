@@ -289,6 +289,9 @@ not affected `[VERIFY]`.
 
 ## 6. Deployment for 10 users (replaces the multi-replica plan in 03 §10 for now)
 
+> **Local first (decided 29 Oct 2026):** this Compose stack runs on the developer's PC until WP 1.18, when the
+> test server is chosen (Oracle Always Free or a Malaysian-owned VPS). The table below describes the server setup.
+
 One Oracle Arm (aarch64) VM running Ubuntu and **Docker Compose**:
 
 | Service (container) | Role | Steady RAM `[ASSUMPTION]` |
