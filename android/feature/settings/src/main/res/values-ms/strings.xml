@@ -6,4 +6,5 @@
     <string name="attribution_openfreemap">Jubin peta oleh OpenFreeMap © OpenMapTiles, dibina daripada data OpenStreetMap.</string>
     <string name="attribution_tolls">Kadar tol diperoleh daripada Lembaga Lebuhraya Malaysia dan pengendali lebuh raya; anggaran sahaja.</string>
     <string name="attribution_photon">Carian tempat oleh Photon (komoot), menggunakan data OpenStreetMap.</string>
+    <string name="attribution_valhalla">Laluan oleh Valhalla di pelayan FOSSGIS e.V., menggunakan data OpenStreetMap.</string>
 </resources>

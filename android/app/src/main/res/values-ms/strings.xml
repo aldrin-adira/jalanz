@@ -15,4 +15,6 @@
     <string name="share_needs_coordinates">Pautan ini tidak mengandungi koordinat tempat, dan Jalanz tidak meminta Google mencarinya. Dalam Google Maps, tekan lama pada lokasi itu, salin koordinat yang dipaparkan di atas, dan tampalkannya ke carian Jalanz.</string>
     <string name="share_not_found_title">Tiada lokasi dijumpai</string>
     <string name="share_not_found">Jalanz tidak menemui lokasi dalam kandungan yang dikongsi.</string>
+    <string name="action_directions">Arah</string>
+    <string name="choose_start">Pilih titik mula</string>
 </resources>

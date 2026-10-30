@@ -49,16 +49,21 @@ import io.github.aldrinadira.jalanz.core.designsystem.JalanzTheme
 import io.github.aldrinadira.jalanz.core.searchclient.Place
 import io.github.aldrinadira.jalanz.core.designsystem.R as DesignR
 
-/** Search screen wired to its ViewModel. [onPlaceSelected] gets the chosen place after it is saved to recents. */
+/**
+ * Search screen wired to its ViewModel. [onPlaceSelected] gets the chosen place after it is saved to recents.
+ * [placeholder] replaces "Search places", e.g. when picking a starting point.
+ */
 @Composable
 fun SearchRoute(
     onPlaceSelected: (Place) -> Unit,
     onBack: () -> Unit,
+    placeholder: String? = null,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     SearchScreen(
         query = viewModel.query,
+        placeholder = placeholder,
         state = state,
         onQueryChange = viewModel::onQueryChange,
         onSelect = { place ->
@@ -77,6 +82,7 @@ fun SearchRoute(
 @Composable
 fun SearchScreen(
     query: String,
+    placeholder: String? = null,
     state: SearchUiState,
     onQueryChange: (String) -> Unit,
     onSelect: (Place) -> Unit,
@@ -88,7 +94,7 @@ fun SearchScreen(
     onBack: () -> Unit,
 ) {
     Scaffold(
-        topBar = { SearchBar(query, onQueryChange, onBack) },
+        topBar = { SearchBar(query, placeholder, onQueryChange, onBack) },
     ) { innerPadding ->
         val contentPadding = PaddingValues(
             top = innerPadding.calculateTopPadding(),
@@ -131,7 +137,7 @@ fun SearchScreen(
 }
 
 @Composable
-private fun SearchBar(query: String, onQueryChange: (String) -> Unit, onBack: () -> Unit) {
+private fun SearchBar(query: String, placeholder: String?, onQueryChange: (String) -> Unit, onBack: () -> Unit) {
     val focusRequester = remember { FocusRequester() }
     val keyboard = LocalSoftwareKeyboardController.current
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
@@ -148,7 +154,7 @@ private fun SearchBar(query: String, onQueryChange: (String) -> Unit, onBack: ()
         TextField(
             value = query,
             onValueChange = onQueryChange,
-            placeholder = { Text(stringResource(R.string.search_hint)) },
+            placeholder = { Text(placeholder ?: stringResource(R.string.search_hint)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = { keyboard?.hide() }),

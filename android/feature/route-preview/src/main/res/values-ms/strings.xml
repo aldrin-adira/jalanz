@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="route_back">Kembali</string>
+    <string name="route_from">Dari</string>
+    <string name="route_to">Ke</string>
+    <string name="route_choose_start">Pilih titik mula</string>
+    <string name="route_needs_origin">Jalanz belum boleh menggunakan lokasi anda. Pilih tempat anda bermula, atau tetapkan Rumah dalam carian untuk bermula di situ secara lalai.</string>
+    <string name="route_avoid_tolls">Elak tol</string>
+    <string name="route_no_live_traffic">Masa menggunakan kelajuan biasa. Belum ada trafik langsung.</string>
+    <string name="route_failed">Tidak dapat merancang laluan. Semak sambungan anda, atau cuba titik yang lebih dekat dengan jalan.</string>
+    <string name="route_retry">Cuba lagi</string>
+    <string name="route_fastest">Terpantas</string>
+    <string name="route_duration_hm">%1$d j %2$d min</string>
+    <string name="route_duration_m">%1$d min</string>
+    <string name="route_tolls_unknown">Bertol (jumlah belum dimuatkan)</string>
+    <string name="route_no_tolls">Tanpa tol</string>
+</resources>
