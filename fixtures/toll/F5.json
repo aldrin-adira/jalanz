@@ -1,0 +1,51 @@
+{
+  "id": "F5",
+  "kind": "synthetic",
+  "description": "Path starts inside closed network TEST-NET (after any entry plaza) and exits at TEST-EXIT",
+  "notes": [
+    "Entry unknown: confidence LOW, range = [min, max] of the fares to TEST-EXIT effective at exit time (04 §6, §7 edge case 3).",
+    "total_sen is the upper end of the range so the route total never under-states the toll [ASSUMPTION] (04 §6)."
+  ],
+  "dataset": {
+    "version": "fixture-F5",
+    "plazas": [
+      { "id": "TEST-E1", "highway_id": "TEST-HWY", "name_ms": "Masuk 1", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 2.900, "lon": 101.000, "active_from": "2020-01-01T00:00:00+08:00" },
+      { "id": "TEST-E2", "highway_id": "TEST-HWY", "name_ms": "Masuk 2", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 2.800, "lon": 101.000, "active_from": "2020-01-01T00:00:00+08:00" },
+      { "id": "TEST-EXIT", "highway_id": "TEST-HWY", "name_ms": "Keluar", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 3.000, "lon": 101.000, "active_from": "2020-01-01T00:00:00+08:00" }
+    ],
+    "osm_refs": [
+      { "plaza_id": "TEST-E1", "node_id": 50 },
+      { "plaza_id": "TEST-E2", "node_id": 51 },
+      { "plaza_id": "TEST-EXIT", "node_id": 52 }
+    ],
+    "roles": [
+      { "plaza_id": "TEST-E1", "role": "closed_entry", "network_id": "TEST-NET", "effective_from": "2020-01-01T00:00:00+08:00" },
+      { "plaza_id": "TEST-E2", "role": "closed_entry", "network_id": "TEST-NET", "effective_from": "2020-01-01T00:00:00+08:00" },
+      { "plaza_id": "TEST-EXIT", "role": "closed_exit", "network_id": "TEST-NET", "effective_from": "2020-01-01T00:00:00+08:00" }
+    ],
+    "open_fares": [],
+    "closed_fares": [
+      { "network_id": "TEST-NET", "entry": "TEST-E1", "exit": "TEST-EXIT", "vehicle_class": "1", "amount_sen": 400, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "test", "verified_at": "2026-06-01T00:00:00+08:00" },
+      { "network_id": "TEST-NET", "entry": "TEST-E2", "exit": "TEST-EXIT", "vehicle_class": "1", "amount_sen": 900, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "test", "verified_at": "2026-06-01T00:00:00+08:00" }
+    ],
+    "system_periods": [{ "highway_id": "TEST-HWY", "system_type": "closed", "network_id": "TEST-NET", "effective_from": "2020-01-01T00:00:00+08:00" }],
+    "discount_events": [],
+    "class_mappings": [{ "profile": "car", "class_scheme": "LLM_1_5", "vehicle_class": "1" }]
+  },
+  "cases": [
+    {
+      "id": "F5",
+      "vehicle_profile": "car",
+      "now": "2026-06-01T09:00:00+08:00",
+      "path": [
+        { "way_id": 5002, "lat": 2.950, "lon": 101.000, "at": "2026-06-01T10:00:00+08:00" },
+        { "node_id": 52, "way_id": 5003, "lat": 3.000, "lon": 101.000, "at": "2026-06-01T10:05:00+08:00" },
+        { "way_id": 5004, "lat": 3.010, "lon": 101.000, "at": "2026-06-01T10:06:00+08:00" }
+      ],
+      "expected": {
+        "total_sen": 900, "range_sen": [400, 900], "confidence": "LOW",
+        "items": [{ "type": "closed_unknown_entry", "network_id": "TEST-NET", "exit": "TEST-EXIT", "charged_sen": null, "range_sen": [400, 900], "discount_event_id": null }]
+      }
+    }
+  ]
+}

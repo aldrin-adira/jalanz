@@ -1,0 +1,126 @@
+{
+  "id": "F2",
+  "kind": "real",
+  "description": "Christmas 2025 festive discount: 50% off Class 1 at all plazas (Class 2 at Penang Bridge), 23 Dec 2025 00:01 to 24 Dec 2025 23:59 MYT, excluding BSI and Tanjung Kupang plazas. F2a-F2d",
+  "retrieved_at": "2026-10-23",
+  "source": "LLM statement, Dec 2025, as recorded in spec 04 §2 and §9; base fares from F1",
+  "notes": [
+    "Base fares are the F1 fares; spec 04 §9 F2a assumes they applied in Dec 2025 [ASSUMPTION].",
+    "Rounding is configured as half_up_sen, so 50% of 1525 sen = 762.5 -> 763 sen. The real rounding rule is [VERIFY] (04 §3).",
+    "The window ends at 23:59 MYT as announced; whether 23:59:00-23:59:59 counts is [VERIFY]. No case tests that minute.",
+    "The BSI open fare (500 sen) is a PLACEHOLDER, not a real fare: F2c only checks that the excluded plaza gets no discount.",
+    "Plaza and highway codes NSE-BSI, E3-TANJUNG-KUPANG and E36 (Penang Bridge) are provisional until WP 1.8 maps real plazas.",
+    "source_url points at the LLM site; the exact statement URL is [VERIFY].",
+    "OSM node/way IDs are synthetic; coordinates are approximate."
+  ],
+  "dataset": {
+    "version": "fixture-F2",
+    "plazas": [
+      { "id": "E1-SIMPANG-PULAI", "highway_id": "E1", "name_ms": "Simpang Pulai", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 4.54, "lon": 101.13, "active_from": "2000-01-01T00:00:00+08:00" },
+      { "id": "E1-JURU", "highway_id": "E1", "name_ms": "Juru", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 5.33, "lon": 100.44, "active_from": "2000-01-01T00:00:00+08:00" },
+      { "id": "NSE-BSI", "highway_id": "NSE", "name_ms": "Bangunan Sultan Iskandar", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 1.46, "lon": 103.77, "active_from": "2000-01-01T00:00:00+08:00" },
+      { "id": "E3-TANJUNG-KUPANG", "highway_id": "E3", "name_ms": "Tanjung Kupang", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 1.37, "lon": 103.62, "active_from": "2000-01-01T00:00:00+08:00" }
+    ],
+    "osm_refs": [
+      { "plaza_id": "E1-SIMPANG-PULAI", "node_id": 11, "in_way_id": 1001, "out_way_id": 1002 },
+      { "plaza_id": "E1-JURU", "node_id": 12, "in_way_id": 1003, "out_way_id": 1004 },
+      { "plaza_id": "NSE-BSI", "node_id": 21, "in_way_id": 2001, "out_way_id": 2002 },
+      { "plaza_id": "E3-TANJUNG-KUPANG", "node_id": 22 }
+    ],
+    "roles": [
+      { "plaza_id": "E1-SIMPANG-PULAI", "in_way_id": 1001, "role": "closed_entry", "network_id": "PLUS-NSE", "effective_from": "2000-01-01T00:00:00+08:00" },
+      { "plaza_id": "E1-JURU", "in_way_id": 1003, "role": "closed_exit", "network_id": "PLUS-NSE", "effective_from": "2000-01-01T00:00:00+08:00" },
+      { "plaza_id": "NSE-BSI", "in_way_id": 2001, "role": "open_charge", "effective_from": "2000-01-01T00:00:00+08:00" },
+      { "plaza_id": "E3-TANJUNG-KUPANG", "role": "open_charge", "effective_from": "2000-01-01T00:00:00+08:00" }
+    ],
+    "open_fares": [
+      { "plaza_id": "NSE-BSI", "in_way_id": 2001, "vehicle_class": "1", "amount_sen": 500, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "placeholder", "verified_at": "2026-10-23T00:00:00+08:00" }
+    ],
+    "closed_fares": [
+      { "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "vehicle_class": "1", "amount_sen": 1525, "distance_km": 136.5, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "llm_kadartol", "verified_at": "2026-10-23T00:00:00+08:00" },
+      { "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "vehicle_class": "3", "amount_sen": 3710, "distance_km": 136.5, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "llm_kadartol", "verified_at": "2026-10-23T00:00:00+08:00" }
+    ],
+    "system_periods": [
+      { "highway_id": "E1", "system_type": "closed", "network_id": "PLUS-NSE", "effective_from": "2000-01-01T00:00:00+08:00" }
+    ],
+    "discount_events": [
+      {
+        "id": "xmas-2025",
+        "name": "Christmas 2025 toll discount",
+        "starts_at": "2025-12-23T00:01:00+08:00",
+        "ends_at": "2025-12-24T23:59:00+08:00",
+        "kind": "percent_off",
+        "percent_bp": 5000,
+        "rounding": "half_up_sen",
+        "scopes": [
+          { "kind": "all", "class_scheme": "LLM_1_5", "vehicle_class": "1" },
+          { "kind": "highway", "id": "E36", "class_scheme": "PENANG_BRIDGE", "vehicle_class": "2" }
+        ],
+        "excluded_plazas": ["NSE-BSI", "E3-TANJUNG-KUPANG"],
+        "source_url": "https://www.llm.gov.my/"
+      }
+    ],
+    "class_mappings": [
+      { "profile": "car", "class_scheme": "LLM_1_5", "vehicle_class": "1" },
+      { "profile": "commercial_3_axle", "class_scheme": "LLM_1_5", "vehicle_class": "3" }
+    ]
+  },
+  "cases": [
+    {
+      "id": "F2a",
+      "vehicle_profile": "car",
+      "now": "2026-10-23T12:00:00+08:00",
+      "path": [
+        { "way_id": 1000, "lat": 4.50, "lon": 101.15, "at": "2025-12-23T08:35:00+08:00" },
+        { "node_id": 11, "way_id": 1001, "lat": 4.54, "lon": 101.13, "at": "2025-12-23T08:40:00+08:00" },
+        { "way_id": 1002, "lat": 4.90, "lon": 100.80, "at": "2025-12-23T09:20:00+08:00" },
+        { "node_id": 12, "way_id": 1003, "lat": 5.33, "lon": 100.44, "at": "2025-12-23T10:00:00+08:00" },
+        { "way_id": 1004, "lat": 5.34, "lon": 100.43, "at": "2025-12-23T10:05:00+08:00" }
+      ],
+      "expected": {
+        "total_sen": 763, "range_sen": null, "confidence": "HIGH",
+        "items": [{ "type": "closed_pair", "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "charged_sen": 763, "discount_event_id": "xmas-2025" }]
+      }
+    },
+    {
+      "id": "F2b",
+      "vehicle_profile": "commercial_3_axle",
+      "now": "2026-10-23T12:00:00+08:00",
+      "path": "same-as:F2a",
+      "expected": {
+        "total_sen": 3710, "range_sen": null, "confidence": "HIGH",
+        "items": [{ "type": "closed_pair", "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "charged_sen": 3710, "discount_event_id": null }]
+      }
+    },
+    {
+      "id": "F2c",
+      "vehicle_profile": "car",
+      "now": "2026-10-23T12:00:00+08:00",
+      "path": [
+        { "way_id": 2000, "lat": 1.48, "lon": 103.76, "at": "2025-12-23T09:55:00+08:00" },
+        { "node_id": 21, "way_id": 2001, "lat": 1.46, "lon": 103.77, "at": "2025-12-23T10:00:00+08:00" },
+        { "way_id": 2002, "lat": 1.45, "lon": 103.77, "at": "2025-12-23T10:03:00+08:00" }
+      ],
+      "expected": {
+        "total_sen": 500, "range_sen": null, "confidence": "HIGH",
+        "items": [{ "type": "open", "plaza_id": "NSE-BSI", "charged_sen": 500, "discount_event_id": null }]
+      }
+    },
+    {
+      "id": "F2d",
+      "vehicle_profile": "car",
+      "now": "2026-10-23T12:00:00+08:00",
+      "path": [
+        { "way_id": 1000, "lat": 4.50, "lon": 101.15, "at": "2025-12-24T23:05:00+08:00" },
+        { "node_id": 11, "way_id": 1001, "lat": 4.54, "lon": 101.13, "at": "2025-12-24T23:10:00+08:00" },
+        { "way_id": 1002, "lat": 4.90, "lon": 100.80, "at": "2025-12-24T23:50:00+08:00" },
+        { "node_id": 12, "way_id": 1003, "lat": 5.33, "lon": 100.44, "at": "2025-12-25T00:30:00+08:00" },
+        { "way_id": 1004, "lat": 5.34, "lon": 100.43, "at": "2025-12-25T00:35:00+08:00" }
+      ],
+      "expected": {
+        "total_sen": 1525, "range_sen": null, "confidence": "HIGH",
+        "items": [{ "type": "closed_pair", "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "charged_sen": 1525, "discount_event_id": null }]
+      }
+    }
+  ]
+}

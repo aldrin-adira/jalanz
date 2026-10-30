@@ -1,0 +1,38 @@
+{
+  "id": "F6",
+  "kind": "synthetic",
+  "description": "Mainline passes 10 m from ramp plaza TEST-RAMP without using the ramp: not charged",
+  "notes": [
+    "The path never visits the ramp node 60, so node matching finds nothing (04 §5 way-aware detection).",
+    "Geometric fallback must also reject it: the plaza is 10 m away (within 15 m) but the ramp bearing (60 deg) differs from the path bearing (0 deg) by more than 45 deg (04 §5, §7 edge case 2)."
+  ],
+  "dataset": {
+    "version": "fixture-F6",
+    "plazas": [
+      { "id": "TEST-RAMP", "highway_id": "TEST-HWY", "name_ms": "Susur Ujian", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 3.005, "lon": 101.00009, "active_from": "2020-01-01T00:00:00+08:00" }
+    ],
+    "osm_refs": [{ "plaza_id": "TEST-RAMP", "node_id": 60, "in_way_id": 6001, "out_way_id": 6002, "bearing_deg": 60 }],
+    "roles": [
+      { "plaza_id": "TEST-RAMP", "in_way_id": 6001, "role": "closed_entry", "network_id": "TEST-NET", "effective_from": "2020-01-01T00:00:00+08:00" }
+    ],
+    "open_fares": [],
+    "closed_fares": [],
+    "system_periods": [{ "highway_id": "TEST-HWY", "system_type": "closed", "network_id": "TEST-NET", "effective_from": "2020-01-01T00:00:00+08:00" }],
+    "discount_events": [],
+    "class_mappings": [{ "profile": "car", "class_scheme": "LLM_1_5", "vehicle_class": "1" }]
+  },
+  "cases": [
+    {
+      "id": "F6",
+      "vehicle_profile": "car",
+      "now": "2026-06-01T09:00:00+08:00",
+      "path": [
+        { "way_id": 6100, "lat": 2.995, "lon": 101.000, "at": "2026-06-01T10:00:00+08:00" },
+        { "node_id": 61, "way_id": 6100, "lat": 3.000, "lon": 101.000, "at": "2026-06-01T10:00:20+08:00" },
+        { "node_id": 62, "way_id": 6100, "lat": 3.010, "lon": 101.000, "at": "2026-06-01T10:01:00+08:00" },
+        { "way_id": 6100, "lat": 3.015, "lon": 101.000, "at": "2026-06-01T10:01:20+08:00" }
+      ],
+      "expected": { "total_sen": 0, "range_sen": null, "confidence": "HIGH", "items": [] }
+    }
+  ]
+}

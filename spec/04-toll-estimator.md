@@ -243,6 +243,11 @@ function detectCrossings(path):
 Why way-aware matching: closed-system plazas sit on interchange **ramps**; a route that stays on the mainline
 passes within metres of them but must not be charged (fixture F6).
 
+Clarified 30 Oct 2026 (WP 1.2, fixtures F6 and F9): "without a node match" means the plaza's OSM node(s) were not
+on this path. The fallback then needs **both** distance ≤ 15 m **and** a bearing within 45° of one of the plaza's
+`plaza_osm_ref.bearing_deg` values. A plaza with no known bearing (no refs yet, edge case 8) matches on distance
+only. F6: ramp bearing 60° vs path 0° → rejected. F9: bearing 0° vs path 0° → charged, MEDIUM.
+
 ## 6. Fare computation
 
 ```text
@@ -284,6 +289,12 @@ function estimate(path, profile, depart_at):
 ```
 
 `*_at(…, t)` always selects the row where `effective_from <= t < coalesce(effective_to, +∞)`.
+If two rows for the same key match `t`, the dataset is wrong: the engine raises an error instead of choosing.
+
+With confidence LOW and a range, `total_sen` is the **upper end** of `range_sen` so a route total never
+under-states the toll; the unknown-entry item has `charged_sen: null` and its own `range_sen` `[ASSUMPTION]`
+(decided 30 Oct 2026 in WP 1.2, fixture F5). The F10 age rule measures `verified_at` against the time the
+estimate is made (`now`), not the trip time.
 Transaction time = time at the charging plaza (open plaza time; closed **exit** time) `[ASSUMPTION — confirm with LLM]`.
 
 ### 6.1 Discounts
@@ -361,8 +372,9 @@ Response (fare values from fixture F1; `payment_methods` and timestamps are illu
 
 ## 9. Test fixtures (the contract for both engines)
 
-Store as `fixtures/toll/*.json`. Real-data fixtures carry `retrieved_at` and must be re-verified against the
-official calculator before each release `[VERIFY]`. Synthetic fixtures use IDs prefixed `TEST-`.
+Store as `fixtures/toll/*.json` (file format: `fixtures/toll/README.md`). Real-data fixtures carry `retrieved_at`
+and must be re-verified against the official calculator before each release `[VERIFY]`. Synthetic fixtures use IDs
+prefixed `TEST-`. Placeholders inside real fixtures (e.g. the F2c BSI fare) are named in the file's `notes`.
 
 | ID | Type | Scenario | Expected |
 |---|---|---|---|
