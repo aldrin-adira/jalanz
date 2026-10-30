@@ -58,6 +58,15 @@ git config core.hooksPath .githooks
 Build and test commands per area are in `spec/09-git-workflow.md` §7.1. Add the real commands here as each
 project is created (WP 0.3 Android, WP 0.4 backend).
 
+**Android** (`android/`, JDK 17+; SDK levels and module conventions in `android/build-logic`):
+```sh
+./gradlew assembleDebug testDebugUnitTest :core:toll:test lint   # what CI runs, plus the debug APK
+./gradlew :app:installDebug                                       # install on a connected phone/emulator
+```
+If Gradle fails with `PKIX path building failed` on a Windows PC whose HTTPS is inspected by security
+software, run it with `JAVA_TOOL_OPTIONS=-Djavax.net.ssl.trustStoreType=Windows-ROOT` (local only; never
+commit it).
+
 ## 5. Finishing a work package
 1. Run the checks in `spec/09-git-workflow.md` §7.1 and the merge checklist in §8.
 2. Add the WP to the progress log below **in the same branch**.
@@ -70,3 +79,4 @@ project is created (WP 0.3 Android, WP 0.4 backend).
 |---|---|---|---|
 | 0.1 | `chore/misc-monorepo-skeleton` | 2026-10-29 | Folders, .gitignore, commit template and hook; plus Apache-2.0 licence and spec pack |
 | 0.2 | `build/misc-ci-pipeline` | 2026-10-30 | `.github/workflows/ci.yml`: commit-message check on every commit; Android, backend, web-share, pipelines and infra jobs switch on automatically once each project's marker file exists (`gradlew`, `package.json`, `pyproject.toml`, `compose.yaml`). **Merged on local checks only** (product owner, 2026-10-30): first GitHub run was blocked by an account billing lock; confirm a green run on the next push |
+| 0.3 | `build/NFR-11-android-skeleton` | 2026-10-30 | Gradle 9.8.2, AGP 9.5 (built-in Kotlin 2.4.21), Hilt, Compose; 19 modules from spec 06 §2 via `build-logic` conventions; compile/target SDK 37, minSdk 28 (still `[ASSUMPTION]`); placeholder screen in EN/BM verified on emulator API 36. Backup and device transfer disabled (NFR-02) |
