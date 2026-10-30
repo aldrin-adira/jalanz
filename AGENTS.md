@@ -69,3 +69,4 @@ project is created (WP 0.3 Android, WP 0.4 backend).
 | WP | Branch | Merged | Notes |
 |---|---|---|---|
 | 0.1 | `chore/misc-monorepo-skeleton` | 2026-10-29 | Folders, .gitignore, commit template and hook; plus Apache-2.0 licence and spec pack |
+| 0.2 | `build/misc-ci-pipeline` | 2026-10-30 | `.github/workflows/ci.yml`: commit-message check on every commit; Android, backend, web-share, pipelines and infra jobs switch on automatically once each project's marker file exists (`gradlew`, `package.json`, `pyproject.toml`, `compose.yaml`). **Merged on local checks only** (product owner, 2026-10-30): first GitHub run was blocked by an account billing lock; confirm a green run on the next push |
