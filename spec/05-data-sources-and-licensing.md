@@ -19,6 +19,9 @@ All entries checked 23 Oct 2026. Licences and terms change — `[VERIFY]` before
 | DS-12 | Oracle Cloud Infrastructure, Malaysia West (Kulai), Always Free | Hosting for the first 10 users | Oracle cloud terms; Always Free limits (08 §6) | — | — |
 | DS-13 | data.gov.my fuel price data (weekly) | Fuel prices in FR-12 | Malaysian open government data terms `[VERIFY]` | Cite data.gov.my | Weekly |
 | DS-14 | Wikidata | Place-name labels/aliases in BM/EN/ZH/TA for search | CC0 | — | Monthly |
+| DS-15 | **OpenFreeMap** public vector tiles (`tiles.openfreemap.org`) — personal-use track (10 §1.1) | Phone base map (MapLibre style + tiles) until our own PMTiles exist | Free, no key, no request limit stated; tiles are OpenMapTiles schema built from OSM (ODbL) `[VERIFY]` current terms | "OpenFreeMap © OpenMapTiles Data from OpenStreetMap" on map + attribution screen | Weekly (theirs) |
+| DS-16 | **Photon** public geocoder by komoot (`photon.komoot.io`) — personal-use track | Place search with search-as-you-type until our Typesense index exists | Free, fair use only, no key; heavy use not allowed `[VERIFY]`; results are OSM data (ODbL) | "© OpenStreetMap contributors" | Their OSM import |
+| DS-17 | **Valhalla on the FOSSGIS server** (`valhalla1.openstreetmap.de`) — personal-use track | Routes, alternatives, `trace_attributes` OSM way IDs for toll detection, until our own Valhalla runs | FOSSGIS e.V. public service, fair use, no key, no SLA `[VERIFY]` usage policy; OSM data (ODbL) | "© OpenStreetMap contributors"; credit FOSSGIS on attribution screen | Their OSM import |
 | DS-08 | User contributions (place edits, reports, opt-in probes) | Missing POIs, hazards, traffic | Your own terms of use; contributor licence grant to you; if merged into OSM-derived data, consider ODbL share-alike obligations | — | Continuous |
 
 ### Mixing licences — notes

@@ -7,7 +7,8 @@ apply to every session, every agent and every tool.
 ## 1. Before doing anything
 1. Read `spec/00-README.md`, `spec/09-git-workflow.md` and `spec/10-build-phases.md`.
 2. Find the next work package (WP) in `spec/10-build-phases.md` that is not in the progress log (§6), unless the
-   product owner names a WP.
+   product owner names a WP. While the personal-use track is active (§3), follow its order in
+   `spec/10-build-phases.md` §1.1 and skip the WPs it defers.
 3. Read **only** the spec sections listed for that WP (plus any they reference). Do not load the whole pack.
 4. During testing, apply the overrides in `spec/11-zero-cost-testing.md` §2.
 
@@ -45,6 +46,7 @@ apply to every session, every agent and every tool.
 | Coverage | Confirmed (2026-10-29) | **Peninsular Malaysia only** for now (search, routing, tolls, map packs). Sabah/Sarawak later |
 | Provider policy | Confirmed (2026-10-29) | Avoid products founded or based in Israel. **Testing period:** Oracle Cloud acceptable if used; Tailscale Funnel allowed for ad-hoc testing from the developer's PC. **Before public launch:** all user personal data (accounts, locations, shared trips) only on Malaysian-owned servers in Malaysia. Any new third-party service needs product-owner approval |
 | Hosting | Confirmed (2026-10-29) | **Local first:** the Docker Compose stack runs on the developer's PC until WP 1.18. **Decided at WP 1.18** (before release 0.1.0): Oracle Always Free if it cooperates, otherwise a Malaysian-owned VPS. Keep the stack provider-neutral |
+| Personal-use track | Confirmed (2026-10-30) | Built for the product owner's own use for now: the app calls free public services (OpenFreeMap, Photon, FOSSGIS Valhalla) instead of our server; no Docker until sharing (Phase 4). Build order and deferred WPs: `spec/10-build-phases.md` §1.1. Must be revisited before anyone else installs the app |
 | Sign-in provider | **Open — needed before Phase 6** | Firebase (spec 08 default) is under review; alternatives: email-only sign-in in our own backend, or Keycloak |
 | Test phones and head units | **Open — needed before Phase 3** | — |
 
