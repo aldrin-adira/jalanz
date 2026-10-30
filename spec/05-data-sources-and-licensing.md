@@ -44,6 +44,11 @@ Roads APIs must not be used in conjunction with a non-Google map. Because this a
 - ≤1 request/second, nightly, with exponential back-off on errors.
 - Respect `robots.txt` and site terms; stop and seek permission if disallowed.
 - Store raw snapshots so parsing can be re-run without re-fetching.
+- **Portal status (30 Oct 2026):** `kadartol.llm.gov.my` did not accept connections (timeout from Malaysia,
+  refused from abroad); the newest archived copy is from 9 Mar 2024. It is an ASP.NET form with no JSON API, no
+  `robots.txt` (404), no login and no CAPTCHA. Details: `pipelines/docs/llm-kadartol-portal.md` `[VERIFY]`.
+- The crawler waits at least 3 s between requests (stricter than 1/s) and identifies itself as
+  `Jalanz/0.0.1 (+https://github.com/aldrin-adira/jalanz)`; the project URL is the contact.
 - Long-term: request a machine-readable feed from LLM (the portal already exposes highway → plaza → fare +
   distance, so the data exists in structured form).
 
