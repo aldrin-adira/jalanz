@@ -65,6 +65,12 @@ project is created (WP 0.3 Android, WP 0.4 backend).
 ./gradlew assembleDebug testDebugUnitTest :core:toll:test lint   # what CI runs, plus the debug APK
 ./gradlew :app:installDebug                                       # install on a connected phone/emulator
 ```
+**Pipelines** (`pipelines/`, Python 3.12+; details in `pipelines/README.md`):
+```sh
+python -m venv .venv && .venv/Scripts/python -m pip install -e '.[test]'   # once
+.venv/Scripts/python -m pytest                                            # what CI runs
+.venv/Scripts/python -m jalanz_pipelines.llm_toll crawl --highway 24      # crawl into pipelines/data/ (never committed)
+```
 **CI is manual-only for now** (owner decision 2026-10-30, personal-use track): `.github/workflows/ci.yml` runs only
 when started by hand in GitHub Actions. Until it is switched back on, the local commands above stand in for the
 "CI is green" item of the merge checklist (`spec/09-git-workflow.md` §8): run them before every merge and record
@@ -97,3 +103,4 @@ commit it).
 | 1.15 | `feature/FR-01-search-ui` | 2026-10-30 | Photon search client (Peninsular bbox, transit stops filtered), Room `jalanz.db` for Home/Work/recents, search screen + map pin. Emulator cannot reach Photon on the dev PC (HTTPS inspection); live search confirmed on the phone by the owner |
 | 2.9 | `feature/FR-17-share-in` | 2026-10-30 | Pulled forward. `geo:` links and shared text/links with literal coordinates open as a pin; Google short links get an explanation (never expanded, 05 §2); long-press pins; named saved places; typed `lat, lon` in search |
 | 1.16 | `feature/FR-05-route-preview-ui` | 2026-10-30 | Partial by design: FOSSGIS Valhalla routes (up to 3, avoid tolls via `exclude_tolls`), route lines on the map, From = Home or picked place. Toll amount, class picker and breakdown deferred until toll data (spec 10 §1.1). Live routes confirmed on the owner's phone (30 Oct 2026) |
+| 1.7 | `feature/FR-06-llm-portal-crawler` | 2026-10-30 | `pipelines/`: polite crawler for the LLM calculator's JSON API on www.llm.gov.my (kadartol.llm.gov.my is unreachable), raw snapshots, parser, aliases, diff, 04 §4.3 rules 1/2/3/5/6, change sets + `jalanz-toll` CLI. 41 tests. Real crawl: F1 pair matches (1525 sen, 136.5 km); LEKAS and LDP crawled in full (50 requests). Data stays in `pipelines/data/`. Rules 4/7 wait for WP 1.8 and a second source |
