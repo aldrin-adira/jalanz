@@ -22,3 +22,27 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "jalanz"
+
+// Module layout: spec/06-android-auto.md §2. :app and :car never depend on each other.
+include(":car")
+include(
+    ":core:drive",
+    ":core:location",
+    ":core:guidance",
+    ":core:routing-client",
+    ":core:toll",
+    ":core:share",
+    ":core:map",
+    ":core:search-client",
+    ":core:data",
+    ":core:privacy",
+    ":core:account",
+    ":core:designsystem",
+)
+include(
+    ":feature:search",
+    ":feature:route-preview",
+    ":feature:navigation",
+    ":feature:share",
+    ":feature:settings",
+)
