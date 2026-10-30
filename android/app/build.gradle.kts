@@ -18,5 +18,7 @@ dependencies {
     implementation(project(":feature:settings"))
     implementation(project(":feature:search"))
     implementation(project(":core:search-client"))
+    implementation(project(":core:data"))
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
 }

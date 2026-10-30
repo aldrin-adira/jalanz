@@ -62,4 +62,17 @@ class SearchResultsTest {
         runCurrent()
         assertEquals(listOf(SearchResults.Loading, SearchResults.Failed), seen)
     }
+
+    @Test
+    fun `typed coordinates become one result without searching`() = runTest {
+        val search = FakeSearch { error("must not search") }
+        val queries = MutableStateFlow("3.13900, 101.68690")
+        val seen = mutableListOf<SearchResults>()
+        backgroundScope.launch { searchResults(queries, search).collect { seen += it } }
+        runCurrent()
+        assertEquals(
+            listOf<SearchResults>(SearchResults.Loaded(listOf(Place("3.13900, 101.68690", "", 3.139, 101.6869)))),
+            seen,
+        )
+    }
 }

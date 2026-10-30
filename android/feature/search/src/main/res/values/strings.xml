@@ -13,4 +13,5 @@
     <string name="search_set_work">Set as Work</string>
     <string name="search_no_results">No places found in Peninsular Malaysia.</string>
     <string name="search_failed">Search isn\'t available right now. Check your connection.</string>
+    <string name="search_saved">Saved</string>
 </resources>

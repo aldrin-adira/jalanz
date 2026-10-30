@@ -49,20 +49,28 @@ private const val PIN_ZOOM = 15.0
 
 /**
  * Full-screen MapLibre map that follows the system light/dark setting. Shared later by phone and car (06 §2).
- * When [pin] is set the map shows a marker there and moves the camera to it.
+ * When [pin] is set the map shows a marker there and moves the camera to it. [onLongPress] gets the pressed point.
  */
 @Composable
 fun JalanzMap(
     modifier: Modifier = Modifier,
     pin: LatLng? = null,
+    onLongPress: (LatLng) -> Unit = {},
     darkTheme: Boolean = isSystemInDarkTheme(),
 ) {
     val context = LocalContext.current
+    val currentOnLongPress by rememberUpdatedState(onLongPress)
     val mapView = remember {
         MapLibre.getInstance(context)
         MapView(context).apply {
             onCreate(null)
-            getMapAsync { it.cameraPosition = DEFAULT_CAMERA }
+            getMapAsync { map ->
+                map.cameraPosition = DEFAULT_CAMERA
+                map.addOnMapLongClickListener { point ->
+                    currentOnLongPress(point)
+                    true
+                }
+            }
         }
     }
     MapViewLifecycle(mapView)
