@@ -41,7 +41,8 @@ services directly instead of our own server stack, so no Docker or server is nee
 
 Rules for this track:
 - **Build order:** WP 1.1–1.5 (toll engine), then map (1.14), search (1.15), route preview (1.16) against the
-  public services, then the toll crawler and plaza mapping (1.7, 1.8). WP 0.4–0.8, 1.6, 1.9–1.13, 1.17 and 1.18 are
+  public services, then the toll crawler and plaza mapping (1.7, 1.8). WP 2.9 (share-in) was pulled forward on 30 Oct 2026, with
+  long-press pins and named saved places, because many small shops are in neither OSM nor Overture. WP 0.4–0.8, 1.6, 1.9–1.13, 1.17 and 1.18 are
   **deferred**, not dropped. Phase 2 can follow; Phase 4 (sharing) needs a relay server, so revisit hosting then.
 - **Keep the seams:** call each service through an interface in `:core:routing-client`, `:core:search-client` and
   `:core:map`, so switching to our own server later is a new implementation, not a rewrite.

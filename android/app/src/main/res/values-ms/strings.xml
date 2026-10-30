@@ -3,4 +3,16 @@
     <string name="action_data_sources">Sumber data dan lesen</string>
     <string name="search_places">Cari tempat</string>
     <string name="action_close">Tutup</string>
+    <string name="dropped_pin">Pin diletak</string>
+    <string name="shared_location">Lokasi dikongsi</string>
+    <string name="action_save">Simpan</string>
+    <string name="action_cancel">Batal</string>
+    <string name="action_ok">OK</string>
+    <string name="save_place_title">Simpan tempat</string>
+    <string name="save_place_name">Nama</string>
+    <string name="place_saved">Disimpan. Cari di bawah Disimpan dalam carian.</string>
+    <string name="share_needs_coordinates_title">Koordinat diperlukan</string>
+    <string name="share_needs_coordinates">Pautan ini tidak mengandungi koordinat tempat, dan Jalanz tidak meminta Google mencarinya. Dalam Google Maps, tekan lama pada lokasi itu, salin koordinat yang dipaparkan di atas, dan tampalkannya ke carian Jalanz.</string>
+    <string name="share_not_found_title">Tiada lokasi dijumpai</string>
+    <string name="share_not_found">Jalanz tidak menemui lokasi dalam kandungan yang dikongsi.</string>
 </resources>

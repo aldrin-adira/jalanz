@@ -13,4 +13,5 @@
     <string name="search_set_work">Tetapkan sebagai Tempat kerja</string>
     <string name="search_no_results">Tiada tempat dijumpai di Semenanjung Malaysia.</string>
     <string name="search_failed">Carian tidak tersedia sekarang. Semak sambungan anda.</string>
+    <string name="search_saved">Disimpan</string>
 </resources>

@@ -15,6 +15,7 @@ object PlaceKind {
     const val HOME = "home"
     const val WORK = "work"
     const val RECENT = "recent"
+    const val SAVED = "saved"
 }
 
 /** A place kept on this phone only (NFR-02; backup and device transfer are off). */
@@ -37,6 +38,12 @@ interface SavedPlaceDao {
 
     @Query("SELECT * FROM saved_place WHERE kind = 'recent' ORDER BY usedAt DESC LIMIT :limit")
     fun observeRecents(limit: Int): Flow<List<SavedPlaceEntity>>
+
+    @Query("SELECT * FROM saved_place WHERE kind = :kind ORDER BY name COLLATE NOCASE")
+    fun observeAllOfKind(kind: String): Flow<List<SavedPlaceEntity>>
+
+    @Query("DELETE FROM saved_place WHERE kind = :kind AND name = :name AND lat = :lat AND lon = :lon")
+    suspend fun deleteOne(kind: String, name: String, lat: Double, lon: Double)
 
     @Insert
     suspend fun insert(place: SavedPlaceEntity)

@@ -69,6 +69,7 @@ fun SearchRoute(
         onSetWork = viewModel::setWork,
         onClearHome = viewModel::clearHome,
         onClearWork = viewModel::clearWork,
+        onRemoveSaved = viewModel::removeSaved,
         onBack = onBack,
     )
 }
@@ -83,6 +84,7 @@ fun SearchScreen(
     onSetWork: (Place) -> Unit,
     onClearHome: () -> Unit,
     onClearWork: () -> Unit,
+    onRemoveSaved: (Place) -> Unit,
     onBack: () -> Unit,
 ) {
     Scaffold(
@@ -101,15 +103,14 @@ fun SearchScreen(
                 item {
                     FavouriteRow(DesignR.drawable.ic_work, stringResource(R.string.search_work), state.work, onSelect, onClearWork)
                 }
+                if (state.saved.isNotEmpty()) {
+                    item { HorizontalDivider() }
+                    item { SectionHeader(stringResource(R.string.search_saved)) }
+                    items(state.saved) { place -> SavedRow(place, onSelect, onRemove = { onRemoveSaved(place) }) }
+                }
                 if (state.recents.isNotEmpty()) {
                     item { HorizontalDivider() }
-                    item {
-                        Text(
-                            stringResource(R.string.search_recent),
-                            style = MaterialTheme.typography.titleSmall,
-                            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp),
-                        )
-                    }
+                    item { SectionHeader(stringResource(R.string.search_recent)) }
                     items(state.recents) { place -> PlaceRow(DesignR.drawable.ic_history, place, onSelect, placeActions) }
                 }
             }
@@ -223,6 +224,32 @@ private fun FavouriteRow(@DrawableRes icon: Int, label: String, place: Place?, o
 }
 
 @Composable
+private fun SectionHeader(text: String) {
+    Text(
+        text,
+        style = MaterialTheme.typography.titleSmall,
+        modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp),
+    )
+}
+
+@Composable
+private fun SavedRow(place: Place, onSelect: (Place) -> Unit, onRemove: () -> Unit) {
+    ListItem(
+        headlineContent = { Text(place.name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        supportingContent = place.detail.takeIf { it.isNotEmpty() }?.let {
+            { Text(it, maxLines = 1, overflow = TextOverflow.Ellipsis) }
+        },
+        leadingContent = { Icon(painterResource(DesignR.drawable.ic_place), contentDescription = null) },
+        trailingContent = {
+            IconButton(onClick = onRemove) {
+                Icon(painterResource(DesignR.drawable.ic_close), stringResource(R.string.search_clear_saved, place.name))
+            }
+        },
+        modifier = Modifier.clickable { onSelect(place) },
+    )
+}
+
+@Composable
 private fun Message(text: String, padding: PaddingValues) {
     Text(
         text,
@@ -243,7 +270,7 @@ private fun SearchScreenPreview() {
             query = "",
             state = SearchUiState(home = midValley, recents = listOf(midValley)),
             onQueryChange = {}, onSelect = {}, onSetHome = {}, onSetWork = {},
-            onClearHome = {}, onClearWork = {}, onBack = {},
+            onClearHome = {}, onClearWork = {}, onRemoveSaved = {}, onBack = {},
         )
     }
 }

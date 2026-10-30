@@ -10,6 +10,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.aldrinadira.jalanz.core.data.SavedPlaces
 import io.github.aldrinadira.jalanz.core.searchclient.Place
 import io.github.aldrinadira.jalanz.core.searchclient.PlaceSearch
+import io.github.aldrinadira.jalanz.core.searchclient.formatCoordinates
+import io.github.aldrinadira.jalanz.core.searchclient.parseCoordinates
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -38,6 +40,7 @@ data class SearchUiState(
     val results: SearchResults = SearchResults.Idle,
     val home: Place? = null,
     val work: Place? = null,
+    val saved: List<Place> = emptyList(),
     val recents: List<Place> = emptyList(),
 )
 
@@ -57,9 +60,10 @@ class SearchViewModel @Inject constructor(
         searchResults(snapshotFlow { query }, placeSearch),
         savedPlaces.home,
         savedPlaces.work,
+        savedPlaces.saved,
         savedPlaces.recents,
-    ) { results, home, work, recents ->
-        SearchUiState(results, home, work, recents)
+    ) { results, home, work, saved, recents ->
+        SearchUiState(results, home, work, saved, recents)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), SearchUiState())
 
     fun onQueryChange(text: String) {
@@ -75,6 +79,7 @@ class SearchViewModel @Inject constructor(
     fun setWork(place: Place) = launch { savedPlaces.setWork(place) }
     fun clearHome() = launch { savedPlaces.clearHome() }
     fun clearWork() = launch { savedPlaces.clearWork() }
+    fun removeSaved(place: Place) = launch { savedPlaces.removeSaved(place) }
 
     private fun launch(block: suspend () -> Unit) {
         viewModelScope.launch { block() }
@@ -87,15 +92,23 @@ internal val SEARCH_BIAS = Place("Kuala Lumpur", "", 3.1390, 101.6869)
 internal const val SEARCH_DEBOUNCE_MS = 300L
 internal const val MIN_QUERY_LENGTH = 2
 
-/** Search-as-you-type: waits for a pause in typing, and drops results of queries the user has moved past. */
+/**
+ * Search-as-you-type: waits for a pause in typing, and drops results of queries the user has moved past.
+ * Typed coordinates become a single result straight away.
+ */
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 internal fun searchResults(queries: Flow<String>, placeSearch: PlaceSearch): Flow<SearchResults> =
     queries
         .map { it.trim() }
         .distinctUntilChanged()
-        .debounce { if (it.length < MIN_QUERY_LENGTH) 0L else SEARCH_DEBOUNCE_MS }
+        .debounce { if (it.length < MIN_QUERY_LENGTH || parseCoordinates(it) != null) 0L else SEARCH_DEBOUNCE_MS }
         .flatMapLatest { text ->
-            if (text.length < MIN_QUERY_LENGTH) {
+            val coordinates = parseCoordinates(text)
+            if (coordinates != null) {
+                // A pasted "lat, lon" (e.g. copied from another map app) is a place on its own; no network.
+                val (lat, lon) = coordinates
+                flowOf<SearchResults>(SearchResults.Loaded(listOf(Place(formatCoordinates(lat, lon), "", lat, lon))))
+            } else if (text.length < MIN_QUERY_LENGTH) {
                 flowOf<SearchResults>(SearchResults.Idle)
             } else {
                 flow<SearchResults> {

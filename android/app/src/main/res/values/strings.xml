@@ -4,4 +4,16 @@
     <string name="action_data_sources">Data sources and licences</string>
     <string name="search_places">Search places</string>
     <string name="action_close">Close</string>
+    <string name="dropped_pin">Dropped pin</string>
+    <string name="shared_location">Shared location</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_ok">OK</string>
+    <string name="save_place_title">Save place</string>
+    <string name="save_place_name">Name</string>
+    <string name="place_saved">Saved. Find it under Saved in search.</string>
+    <string name="share_needs_coordinates_title">Coordinates needed</string>
+    <string name="share_needs_coordinates">This link doesn\'t include the place\'s coordinates, and Jalanz doesn\'t ask Google to look them up. In Google Maps, long-press the spot, copy the coordinates shown at the top, and paste them into Jalanz search.</string>
+    <string name="share_not_found_title">No location found</string>
+    <string name="share_not_found">Jalanz couldn\'t find a location in what was shared.</string>
 </resources>

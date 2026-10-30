@@ -13,12 +13,15 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/** Home, Work and recent places, stored only on this phone (FR-01, NFR-02). */
+/** Home, Work, named saved places and recent places, stored only on this phone (FR-01, NFR-02). */
 @Singleton
 class SavedPlaces @Inject constructor(private val dao: SavedPlaceDao) {
     val home: Flow<Place?> = dao.observeKind(PlaceKind.HOME).map { it?.toPlace() }
     val work: Flow<Place?> = dao.observeKind(PlaceKind.WORK).map { it?.toPlace() }
     val recents: Flow<List<Place>> = dao.observeRecents(RECENTS_SHOWN).map { list -> list.map { it.toPlace() } }
+
+    /** Places the user named and saved, e.g. a shop missing from the map data, A to Z. */
+    val saved: Flow<List<Place>> = dao.observeAllOfKind(PlaceKind.SAVED).map { list -> list.map { it.toPlace() } }
 
     suspend fun setHome(place: Place) = dao.replaceKind(place.toEntity(PlaceKind.HOME))
     suspend fun setWork(place: Place) = dao.replaceKind(place.toEntity(PlaceKind.WORK))
@@ -26,6 +29,8 @@ class SavedPlaces @Inject constructor(private val dao: SavedPlaceDao) {
     suspend fun clearWork() = dao.deleteKind(PlaceKind.WORK)
     suspend fun addRecent(place: Place) = dao.pushRecent(place.toEntity(PlaceKind.RECENT), RECENTS_KEPT)
     suspend fun clearRecents() = dao.deleteKind(PlaceKind.RECENT)
+    suspend fun save(place: Place) = dao.insert(place.toEntity(PlaceKind.SAVED))
+    suspend fun removeSaved(place: Place) = dao.deleteOne(PlaceKind.SAVED, place.name, place.lat, place.lon)
 
     private companion object {
         const val RECENTS_SHOWN = 10
