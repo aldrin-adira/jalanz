@@ -26,6 +26,32 @@ later expansion (§13).
 
 Sizes: **S** = one session, **M** = two to three sessions, **L** = more than three (consider splitting).
 
+### 1.1 Personal-use track (product owner, 30 Oct 2026)
+
+For now Jalanz is built **for the product owner's own use only**. Until that changes, the app calls free public
+services directly instead of our own server stack, so no Docker or server is needed:
+
+| Need | Public service (05 §1) | Replaces, for now |
+|---|---|---|
+| Base map | OpenFreeMap tiles (DS-15) | WP 0.7 PMTiles, WP 1.14 tiles from our server |
+| Place search | Photon by komoot (DS-16) | WP 0.8, WP 1.11 Typesense + `GET /v1/search` |
+| Routing | Valhalla on the FOSSGIS server (DS-17), incl. `trace_attributes` way IDs | WP 0.6, WP 1.12 `POST /v1/routes` |
+| Toll estimate | On-device `:core:toll` | WP 1.10 `POST /v1/toll/estimate` |
+| Toll dataset | Crawled on the developer's PC (WP 1.7) and bundled into the local build; never committed | WP 1.9 server bundle download |
+
+Rules for this track:
+- **Build order:** WP 1.1–1.5 (toll engine), then map (1.14), search (1.15), route preview (1.16) against the
+  public services, then the toll crawler and plaza mapping (1.7, 1.8). WP 0.4–0.8, 1.6, 1.9–1.13, 1.17 and 1.18 are
+  **deferred**, not dropped. Phase 2 can follow; Phase 4 (sharing) needs a relay server, so revisit hosting then.
+- **Keep the seams:** call each service through an interface in `:core:routing-client`, `:core:search-client` and
+  `:core:map`, so switching to our own server later is a new implementation, not a rewrite.
+- **Privacy trade-off (accepted for personal use only):** search text and route start/end points, plus the phone's
+  IP address, go to komoot and FOSSGIS. This breaks the NFR-13 promise for other users, so **before anyone else
+  installs Jalanz** the deferred server WPs must be built, or the product owner must decide again.
+- **Fair use:** one user fits the public services' policies; 10 testers may not. Send a descriptive User-Agent, cache
+  results, and never add load tests against them.
+- No API keys and no cost. Anything that needs a key (e.g. TomTom traffic) still needs product-owner approval.
+
 ## 2. Phase overview
 
 | Phase | MVP (what testers can do) | Version | Main requirements |
