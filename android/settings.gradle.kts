@@ -24,6 +24,7 @@ dependencyResolutionManagement {
 rootProject.name = "jalanz"
 
 // Module layout: spec/06-android-auto.md §2. :app and :car never depend on each other.
+include(":app")
 include(":car")
 include(
     ":core:drive",

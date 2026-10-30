@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Window theme only; screens are themed in Compose by JalanzTheme. -->
+<resources>
+    <style name="Theme.Jalanz" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
