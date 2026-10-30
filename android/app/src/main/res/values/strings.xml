@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name" translatable="false">Jalanz</string>
     <string name="action_data_sources">Data sources and licences</string>
+    <string name="search_places">Search places</string>
+    <string name="action_close">Close</string>
 </resources>

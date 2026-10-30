@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_data_sources">Sumber data dan lesen</string>
+    <string name="search_places">Cari tempat</string>
+    <string name="action_close">Tutup</string>
 </resources>

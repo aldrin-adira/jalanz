@@ -6,4 +6,5 @@
     <string name="attribution_osm">Map data © OpenStreetMap contributors, available under the Open Database License (ODbL).</string>
     <string name="attribution_openfreemap">Map tiles by OpenFreeMap © OpenMapTiles, built from OpenStreetMap data.</string>
     <string name="attribution_tolls">Toll rates sourced from Lembaga Lebuhraya Malaysia and highway operators; estimates only.</string>
+    <string name="attribution_photon">Place search by Photon (komoot), using OpenStreetMap data.</string>
 </resources>

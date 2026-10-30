@@ -5,4 +5,5 @@
     <string name="attribution_osm">Data peta © penyumbang OpenStreetMap, tersedia di bawah Lesen Pangkalan Data Terbuka (ODbL).</string>
     <string name="attribution_openfreemap">Jubin peta oleh OpenFreeMap © OpenMapTiles, dibina daripada data OpenStreetMap.</string>
     <string name="attribution_tolls">Kadar tol diperoleh daripada Lembaga Lebuhraya Malaysia dan pengendali lebuh raya; anggaran sahaja.</string>
+    <string name="attribution_photon">Carian tempat oleh Photon (komoot), menggunakan data OpenStreetMap.</string>
 </resources>
