@@ -1,0 +1,37 @@
+{
+  "id": "F10",
+  "kind": "synthetic",
+  "description": "The only fare used was last verified 45 days before the estimate: confidence MEDIUM",
+  "notes": ["Rule: the oldest verified_at among fares used is more than 30 days before `now` -> at most MEDIUM (04 §6)."],
+  "dataset": {
+    "version": "fixture-F10",
+    "plazas": [
+      { "id": "TEST-OLD", "highway_id": "TEST-HWY", "name_ms": "Lama", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 3.00, "lon": 101.00, "active_from": "2020-01-01T00:00:00+08:00" }
+    ],
+    "osm_refs": [{ "plaza_id": "TEST-OLD", "node_id": 100 }],
+    "roles": [{ "plaza_id": "TEST-OLD", "role": "open_charge", "effective_from": "2020-01-01T00:00:00+08:00" }],
+    "open_fares": [
+      { "plaza_id": "TEST-OLD", "vehicle_class": "1", "amount_sen": 300, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "test", "verified_at": "2026-04-17T09:00:00+08:00" }
+    ],
+    "closed_fares": [],
+    "system_periods": [{ "highway_id": "TEST-HWY", "system_type": "open", "effective_from": "2020-01-01T00:00:00+08:00" }],
+    "discount_events": [],
+    "class_mappings": [{ "profile": "car", "class_scheme": "LLM_1_5", "vehicle_class": "1" }]
+  },
+  "cases": [
+    {
+      "id": "F10",
+      "vehicle_profile": "car",
+      "now": "2026-06-01T09:00:00+08:00",
+      "path": [
+        { "way_id": 10000, "lat": 2.99, "lon": 101.00, "at": "2026-06-01T10:00:00+08:00" },
+        { "node_id": 100, "way_id": 10001, "lat": 3.00, "lon": 101.00, "at": "2026-06-01T10:01:00+08:00" },
+        { "way_id": 10002, "lat": 3.01, "lon": 101.00, "at": "2026-06-01T10:02:00+08:00" }
+      ],
+      "expected": {
+        "total_sen": 300, "range_sen": null, "confidence": "MEDIUM",
+        "items": [{ "type": "open", "plaza_id": "TEST-OLD", "charged_sen": 300, "discount_event_id": null }]
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "F9",
+  "kind": "synthetic",
+  "description": "Plaza TEST-GEO is matched only geometrically (its OSM node is not on the route): charged, confidence MEDIUM",
+  "notes": [
+    "Its OSM ref (node 90) is not on the path, e.g. the routing graph is older than the plaza mapping (04 §7 edge case 8).",
+    "The plaza is about 5 m from the path (within 15 m) and its bearing (0 deg) matches the path (0 deg), so the geometric fallback charges it and lowers confidence one step (04 §5)."
+  ],
+  "dataset": {
+    "version": "fixture-F9",
+    "plazas": [
+      { "id": "TEST-GEO", "highway_id": "TEST-HWY", "name_ms": "Geometri", "kind": "gantry", "class_scheme": "LLM_1_5", "lat": 3.005, "lon": 101.000045, "active_from": "2020-01-01T00:00:00+08:00" }
+    ],
+    "osm_refs": [{ "plaza_id": "TEST-GEO", "node_id": 90, "bearing_deg": 0 }],
+    "roles": [{ "plaza_id": "TEST-GEO", "role": "open_charge", "effective_from": "2020-01-01T00:00:00+08:00" }],
+    "open_fares": [
+      { "plaza_id": "TEST-GEO", "vehicle_class": "1", "amount_sen": 200, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "test", "verified_at": "2026-06-01T00:00:00+08:00" }
+    ],
+    "closed_fares": [],
+    "system_periods": [{ "highway_id": "TEST-HWY", "system_type": "open", "effective_from": "2020-01-01T00:00:00+08:00" }],
+    "discount_events": [],
+    "class_mappings": [{ "profile": "car", "class_scheme": "LLM_1_5", "vehicle_class": "1" }]
+  },
+  "cases": [
+    {
+      "id": "F9",
+      "vehicle_profile": "car",
+      "now": "2026-06-01T09:00:00+08:00",
+      "path": [
+        { "way_id": 9001, "lat": 2.995, "lon": 101.000, "at": "2026-06-01T10:00:00+08:00" },
+        { "node_id": 91, "way_id": 9001, "lat": 3.000, "lon": 101.000, "at": "2026-06-01T10:00:20+08:00" },
+        { "node_id": 92, "way_id": 9001, "lat": 3.010, "lon": 101.000, "at": "2026-06-01T10:01:00+08:00" },
+        { "way_id": 9001, "lat": 3.015, "lon": 101.000, "at": "2026-06-01T10:01:20+08:00" }
+      ],
+      "expected": {
+        "total_sen": 200, "range_sen": null, "confidence": "MEDIUM",
+        "items": [{ "type": "open", "plaza_id": "TEST-GEO", "charged_sen": 200, "discount_event_id": null }]
+      }
+    }
+  ]
+}

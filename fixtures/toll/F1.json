@@ -1,0 +1,106 @@
+{
+  "id": "F1",
+  "kind": "real",
+  "description": "E1 PLUS (North-South Expressway), entry Simpang Pulai -> exit Juru, closed system, classes 1-5",
+  "retrieved_at": "2026-10-23",
+  "source": "LLM toll-rate portal (kadartol.llm.gov.my), as recorded in spec 04 §9",
+  "notes": [
+    "Fares and distance are from the LLM portal on 23 Oct 2026 (spec 04 §9 F1).",
+    "effective_from 2020-01-01 is an [ASSUMPTION]: the fare is treated as unchanged for years (rates frozen); only the 23 Oct 2026 value is verified.",
+    "verified_at uses the retrieval date at 00:00 MYT; the exact time was not recorded.",
+    "Plaza coordinates are approximate. OSM node/way IDs are synthetic (real ones come from WP 1.8).",
+    "Vehicle profiles commercial_2_axle, commercial_3_axle and bus are fixture names for LLM classes 2, 3 and 5."
+  ],
+  "dataset": {
+    "version": "fixture-F1",
+    "plazas": [
+      { "id": "E1-SIMPANG-PULAI", "highway_id": "E1", "name_ms": "Simpang Pulai", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 4.54, "lon": 101.13, "active_from": "2000-01-01T00:00:00+08:00" },
+      { "id": "E1-JURU", "highway_id": "E1", "name_ms": "Juru", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 5.33, "lon": 100.44, "active_from": "2000-01-01T00:00:00+08:00" }
+    ],
+    "osm_refs": [
+      { "plaza_id": "E1-SIMPANG-PULAI", "node_id": 11, "in_way_id": 1001, "out_way_id": 1002 },
+      { "plaza_id": "E1-JURU", "node_id": 12, "in_way_id": 1003, "out_way_id": 1004 }
+    ],
+    "roles": [
+      { "plaza_id": "E1-SIMPANG-PULAI", "in_way_id": 1001, "role": "closed_entry", "network_id": "PLUS-NSE", "effective_from": "2000-01-01T00:00:00+08:00" },
+      { "plaza_id": "E1-JURU", "in_way_id": 1003, "role": "closed_exit", "network_id": "PLUS-NSE", "effective_from": "2000-01-01T00:00:00+08:00" }
+    ],
+    "open_fares": [],
+    "closed_fares": [
+      { "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "vehicle_class": "1", "amount_sen": 1525, "distance_km": 136.5, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "llm_kadartol", "verified_at": "2026-10-23T00:00:00+08:00" },
+      { "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "vehicle_class": "2", "amount_sen": 2790, "distance_km": 136.5, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "llm_kadartol", "verified_at": "2026-10-23T00:00:00+08:00" },
+      { "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "vehicle_class": "3", "amount_sen": 3710, "distance_km": 136.5, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "llm_kadartol", "verified_at": "2026-10-23T00:00:00+08:00" },
+      { "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "vehicle_class": "4", "amount_sen": 763, "distance_km": 136.5, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "llm_kadartol", "verified_at": "2026-10-23T00:00:00+08:00" },
+      { "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "vehicle_class": "5", "amount_sen": 1140, "distance_km": 136.5, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "llm_kadartol", "verified_at": "2026-10-23T00:00:00+08:00" }
+    ],
+    "system_periods": [
+      { "highway_id": "E1", "system_type": "closed", "network_id": "PLUS-NSE", "effective_from": "2000-01-01T00:00:00+08:00" }
+    ],
+    "discount_events": [],
+    "class_mappings": [
+      { "profile": "car", "class_scheme": "LLM_1_5", "vehicle_class": "1" },
+      { "profile": "commercial_2_axle", "class_scheme": "LLM_1_5", "vehicle_class": "2" },
+      { "profile": "commercial_3_axle", "class_scheme": "LLM_1_5", "vehicle_class": "3" },
+      { "profile": "taxi", "class_scheme": "LLM_1_5", "vehicle_class": "4" },
+      { "profile": "bus", "class_scheme": "LLM_1_5", "vehicle_class": "5" }
+    ]
+  },
+  "cases": [
+    {
+      "id": "F1-class1",
+      "vehicle_profile": "car",
+      "now": "2026-10-23T12:00:00+08:00",
+      "path": [
+        { "way_id": 1000, "lat": 4.50, "lon": 101.15, "at": "2026-10-23T12:55:00+08:00" },
+        { "node_id": 11, "way_id": 1001, "lat": 4.54, "lon": 101.13, "at": "2026-10-23T13:00:00+08:00" },
+        { "way_id": 1002, "lat": 4.90, "lon": 100.80, "at": "2026-10-23T13:40:00+08:00" },
+        { "node_id": 12, "way_id": 1003, "lat": 5.33, "lon": 100.44, "at": "2026-10-23T14:20:00+08:00" },
+        { "way_id": 1004, "lat": 5.34, "lon": 100.43, "at": "2026-10-23T14:25:00+08:00" }
+      ],
+      "expected": {
+        "total_sen": 1525, "range_sen": null, "confidence": "HIGH",
+        "items": [{ "type": "closed_pair", "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "charged_sen": 1525, "discount_event_id": null }]
+      }
+    },
+    {
+      "id": "F1-class2",
+      "vehicle_profile": "commercial_2_axle",
+      "now": "2026-10-23T12:00:00+08:00",
+      "path": "same-as:F1-class1",
+      "expected": {
+        "total_sen": 2790, "range_sen": null, "confidence": "HIGH",
+        "items": [{ "type": "closed_pair", "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "charged_sen": 2790, "discount_event_id": null }]
+      }
+    },
+    {
+      "id": "F1-class3",
+      "vehicle_profile": "commercial_3_axle",
+      "now": "2026-10-23T12:00:00+08:00",
+      "path": "same-as:F1-class1",
+      "expected": {
+        "total_sen": 3710, "range_sen": null, "confidence": "HIGH",
+        "items": [{ "type": "closed_pair", "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "charged_sen": 3710, "discount_event_id": null }]
+      }
+    },
+    {
+      "id": "F1-class4",
+      "vehicle_profile": "taxi",
+      "now": "2026-10-23T12:00:00+08:00",
+      "path": "same-as:F1-class1",
+      "expected": {
+        "total_sen": 763, "range_sen": null, "confidence": "HIGH",
+        "items": [{ "type": "closed_pair", "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "charged_sen": 763, "discount_event_id": null }]
+      }
+    },
+    {
+      "id": "F1-class5",
+      "vehicle_profile": "bus",
+      "now": "2026-10-23T12:00:00+08:00",
+      "path": "same-as:F1-class1",
+      "expected": {
+        "total_sen": 1140, "range_sen": null, "confidence": "HIGH",
+        "items": [{ "type": "closed_pair", "network_id": "PLUS-NSE", "entry": "E1-SIMPANG-PULAI", "exit": "E1-JURU", "charged_sen": 1140, "discount_event_id": null }]
+      }
+    }
+  ]
+}

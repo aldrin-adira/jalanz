@@ -1,0 +1,51 @@
+{
+  "id": "F4",
+  "kind": "synthetic",
+  "description": "One-direction open plaza TEST-BRIDGE, traversed both ways: charged eastbound only",
+  "notes": ["Eastbound traffic arrives on way 4001 (direction-specific open_charge); any other direction is open_no_charge (04 §7 edge case 1)."],
+  "dataset": {
+    "version": "fixture-F4",
+    "plazas": [
+      { "id": "TEST-BRIDGE", "highway_id": "TEST-HWY", "name_ms": "Jambatan Ujian", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 3.000, "lon": 101.000, "active_from": "2020-01-01T00:00:00+08:00" }
+    ],
+    "osm_refs": [{ "plaza_id": "TEST-BRIDGE", "node_id": 40 }],
+    "roles": [
+      { "plaza_id": "TEST-BRIDGE", "role": "open_no_charge", "effective_from": "2020-01-01T00:00:00+08:00" },
+      { "plaza_id": "TEST-BRIDGE", "in_way_id": 4001, "role": "open_charge", "effective_from": "2020-01-01T00:00:00+08:00" }
+    ],
+    "open_fares": [
+      { "plaza_id": "TEST-BRIDGE", "in_way_id": 4001, "vehicle_class": "1", "amount_sen": 700, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "test", "verified_at": "2026-06-01T00:00:00+08:00" }
+    ],
+    "closed_fares": [],
+    "system_periods": [{ "highway_id": "TEST-HWY", "system_type": "open", "effective_from": "2020-01-01T00:00:00+08:00" }],
+    "discount_events": [],
+    "class_mappings": [{ "profile": "car", "class_scheme": "LLM_1_5", "vehicle_class": "1" }]
+  },
+  "cases": [
+    {
+      "id": "F4-eastbound",
+      "vehicle_profile": "car",
+      "now": "2026-06-01T09:00:00+08:00",
+      "path": [
+        { "way_id": 4000, "lat": 3.000, "lon": 100.990, "at": "2026-06-01T10:00:00+08:00" },
+        { "node_id": 40, "way_id": 4001, "lat": 3.000, "lon": 101.000, "at": "2026-06-01T10:01:00+08:00" },
+        { "way_id": 4002, "lat": 3.000, "lon": 101.010, "at": "2026-06-01T10:02:00+08:00" }
+      ],
+      "expected": {
+        "total_sen": 700, "range_sen": null, "confidence": "HIGH",
+        "items": [{ "type": "open", "plaza_id": "TEST-BRIDGE", "charged_sen": 700, "discount_event_id": null }]
+      }
+    },
+    {
+      "id": "F4-westbound",
+      "vehicle_profile": "car",
+      "now": "2026-06-01T09:00:00+08:00",
+      "path": [
+        { "way_id": 4010, "lat": 3.000, "lon": 101.010, "at": "2026-06-01T11:00:00+08:00" },
+        { "node_id": 40, "way_id": 4011, "lat": 3.000, "lon": 101.000, "at": "2026-06-01T11:01:00+08:00" },
+        { "way_id": 4012, "lat": 3.000, "lon": 100.990, "at": "2026-06-01T11:02:00+08:00" }
+      ],
+      "expected": { "total_sen": 0, "range_sen": null, "confidence": "HIGH", "items": [] }
+    }
+  ]
+}

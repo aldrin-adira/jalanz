@@ -1,0 +1,68 @@
+{
+  "id": "F7",
+  "kind": "synthetic",
+  "description": "Closed network A, then an open plaza, then closed network B: two pair items and one open item",
+  "notes": ["Open entries are tracked per network, so the two closed trips are priced independently (04 §7 edge case 4)."],
+  "dataset": {
+    "version": "fixture-F7",
+    "plazas": [
+      { "id": "TEST-A-IN", "highway_id": "TEST-HWY-A", "name_ms": "A Masuk", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 3.00, "lon": 101.00, "active_from": "2020-01-01T00:00:00+08:00" },
+      { "id": "TEST-A-OUT", "highway_id": "TEST-HWY-A", "name_ms": "A Keluar", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 3.10, "lon": 101.00, "active_from": "2020-01-01T00:00:00+08:00" },
+      { "id": "TEST-MID", "highway_id": "TEST-HWY-M", "name_ms": "Tengah", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 3.15, "lon": 101.00, "active_from": "2020-01-01T00:00:00+08:00" },
+      { "id": "TEST-B-IN", "highway_id": "TEST-HWY-B", "name_ms": "B Masuk", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 3.20, "lon": 101.00, "active_from": "2020-01-01T00:00:00+08:00" },
+      { "id": "TEST-B-OUT", "highway_id": "TEST-HWY-B", "name_ms": "B Keluar", "kind": "booth", "class_scheme": "LLM_1_5", "lat": 3.30, "lon": 101.00, "active_from": "2020-01-01T00:00:00+08:00" }
+    ],
+    "osm_refs": [
+      { "plaza_id": "TEST-A-IN", "node_id": 71 },
+      { "plaza_id": "TEST-A-OUT", "node_id": 72 },
+      { "plaza_id": "TEST-MID", "node_id": 73 },
+      { "plaza_id": "TEST-B-IN", "node_id": 74 },
+      { "plaza_id": "TEST-B-OUT", "node_id": 75 }
+    ],
+    "roles": [
+      { "plaza_id": "TEST-A-IN", "role": "closed_entry", "network_id": "TEST-NET-A", "effective_from": "2020-01-01T00:00:00+08:00" },
+      { "plaza_id": "TEST-A-OUT", "role": "closed_exit", "network_id": "TEST-NET-A", "effective_from": "2020-01-01T00:00:00+08:00" },
+      { "plaza_id": "TEST-MID", "role": "open_charge", "effective_from": "2020-01-01T00:00:00+08:00" },
+      { "plaza_id": "TEST-B-IN", "role": "closed_entry", "network_id": "TEST-NET-B", "effective_from": "2020-01-01T00:00:00+08:00" },
+      { "plaza_id": "TEST-B-OUT", "role": "closed_exit", "network_id": "TEST-NET-B", "effective_from": "2020-01-01T00:00:00+08:00" }
+    ],
+    "open_fares": [
+      { "plaza_id": "TEST-MID", "vehicle_class": "1", "amount_sen": 150, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "test", "verified_at": "2026-06-01T00:00:00+08:00" }
+    ],
+    "closed_fares": [
+      { "network_id": "TEST-NET-A", "entry": "TEST-A-IN", "exit": "TEST-A-OUT", "vehicle_class": "1", "amount_sen": 300, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "test", "verified_at": "2026-06-01T00:00:00+08:00" },
+      { "network_id": "TEST-NET-B", "entry": "TEST-B-IN", "exit": "TEST-B-OUT", "vehicle_class": "1", "amount_sen": 450, "effective_from": "2020-01-01T00:00:00+08:00", "source_id": "test", "verified_at": "2026-06-01T00:00:00+08:00" }
+    ],
+    "system_periods": [
+      { "highway_id": "TEST-HWY-A", "system_type": "closed", "network_id": "TEST-NET-A", "effective_from": "2020-01-01T00:00:00+08:00" },
+      { "highway_id": "TEST-HWY-M", "system_type": "open", "effective_from": "2020-01-01T00:00:00+08:00" },
+      { "highway_id": "TEST-HWY-B", "system_type": "closed", "network_id": "TEST-NET-B", "effective_from": "2020-01-01T00:00:00+08:00" }
+    ],
+    "discount_events": [],
+    "class_mappings": [{ "profile": "car", "class_scheme": "LLM_1_5", "vehicle_class": "1" }]
+  },
+  "cases": [
+    {
+      "id": "F7",
+      "vehicle_profile": "car",
+      "now": "2026-06-01T09:00:00+08:00",
+      "path": [
+        { "way_id": 7000, "lat": 2.99, "lon": 101.00, "at": "2026-06-01T10:00:00+08:00" },
+        { "node_id": 71, "way_id": 7001, "lat": 3.00, "lon": 101.00, "at": "2026-06-01T10:01:00+08:00" },
+        { "node_id": 72, "way_id": 7002, "lat": 3.10, "lon": 101.00, "at": "2026-06-01T10:11:00+08:00" },
+        { "node_id": 73, "way_id": 7003, "lat": 3.15, "lon": 101.00, "at": "2026-06-01T10:16:00+08:00" },
+        { "node_id": 74, "way_id": 7004, "lat": 3.20, "lon": 101.00, "at": "2026-06-01T10:21:00+08:00" },
+        { "node_id": 75, "way_id": 7005, "lat": 3.30, "lon": 101.00, "at": "2026-06-01T10:31:00+08:00" },
+        { "way_id": 7006, "lat": 3.31, "lon": 101.00, "at": "2026-06-01T10:32:00+08:00" }
+      ],
+      "expected": {
+        "total_sen": 900, "range_sen": null, "confidence": "HIGH",
+        "items": [
+          { "type": "closed_pair", "network_id": "TEST-NET-A", "entry": "TEST-A-IN", "exit": "TEST-A-OUT", "charged_sen": 300, "discount_event_id": null },
+          { "type": "open", "plaza_id": "TEST-MID", "charged_sen": 150, "discount_event_id": null },
+          { "type": "closed_pair", "network_id": "TEST-NET-B", "entry": "TEST-B-IN", "exit": "TEST-B-OUT", "charged_sen": 450, "discount_event_id": null }
+        ]
+      }
+    }
+  ]
+}
