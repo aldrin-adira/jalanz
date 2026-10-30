@@ -94,7 +94,8 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v5
-      - run: ./gradlew testDebugUnitTest lint --stacktrace
+      # :core:toll is a plain JVM module, so its tests run under `test`.
+      - run: ./gradlew testDebugUnitTest :core:toll:test lint --stacktrace
 
   backend:
     name: Backend (test)

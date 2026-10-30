@@ -19,7 +19,7 @@ Facts about Android APIs were checked on 24 Oct 2026 against developer.android.c
 | `androidx.car.app:app` + `app-projected` | **1.7.0** stable (Jul 2025). 1.8.0-rc01 (Aug 2026), 1.9.0-alpha03 (Oct 2026) | Start on 1.7.0; move to 1.8.0 when stable. 1.7.0 introduced `MapWithContentTemplate`. |
 | Minimum Car App API level | **7** | Needed for `MapWithContentTemplate`. Older hosts: show a "please update Android Auto" message. |
 | Car App API levels used later | 6+ for cluster display; 9 (alpha) adds `NavigationManager.setVoiceAssistantCapabilities` | Gate features with `carContext.carAppApiLevel`. |
-| `compileSdk` / `targetSdk` | Latest stable Android SDK `[VERIFY]` | Play Store requires a recent target level. |
+| `compileSdk` / `targetSdk` | **37** (latest stable platform, checked 30 Oct 2026; set in `android/build-logic` `JalanzBuild`) | Play Store requires a recent target level. Re-check at each release. |
 | `minSdk` | 28 (Android 9) `[ASSUMPTION]` | Check the minimum Android version the current Android Auto app supports, and Malaysian device share, before fixing this. |
 | Map renderer | MapLibre Native Android / MapLibre Compose | See §5 for drawing on the car screen. |
 

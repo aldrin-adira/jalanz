@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Jalanz</string>
+    <string name="placeholder_message">Navigation for Peninsular Malaysia, with toll estimates. Coming soon.</string>
+</resources>

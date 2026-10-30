@@ -1,0 +1,43 @@
+# Versions checked 30 Oct 2026 (latest stable). spec/06-android-auto.md §1.1
+[versions]
+agp = "9.5.0"
+kotlin = "2.4.21"
+ksp = "2.3.12"
+hilt = "2.60.1"
+composeBom = "2026.09.00"
+activityCompose = "1.13.0"
+coreKtx = "1.19.1"
+lifecycle = "2.11.0"
+junit = "4.13.2"
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+junit = { module = "junit:junit", version.ref = "junit" }
+
+# Used only by build-logic convention plugins
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
+# Convention plugins from build-logic
+jalanz-android-application = { id = "jalanz.android.application" }
+jalanz-android-library = { id = "jalanz.android.library" }
+jalanz-android-compose = { id = "jalanz.android.compose" }
+jalanz-hilt = { id = "jalanz.hilt" }
+jalanz-jvm-library = { id = "jalanz.jvm.library" }
