@@ -10,6 +10,8 @@ import androidx.compose.ui.graphics.Color
 private val LightColors = lightColorScheme(
     primary = Color(0xFF00658F),
     onPrimary = Color(0xFFFFFFFF),
+    primaryContainer = Color(0xFFC6E7FF),
+    onPrimaryContainer = Color(0xFF001E2E),
     secondary = Color(0xFF8A5100),
     onSecondary = Color(0xFFFFFFFF),
 )
@@ -17,6 +19,8 @@ private val LightColors = lightColorScheme(
 private val DarkColors = darkColorScheme(
     primary = Color(0xFF84CFFF),
     onPrimary = Color(0xFF00344C),
+    primaryContainer = Color(0xFF004C6C),
+    onPrimaryContainer = Color(0xFFC6E7FF),
     secondary = Color(0xFFFFB86E),
     onSecondary = Color(0xFF4A2800),
 )

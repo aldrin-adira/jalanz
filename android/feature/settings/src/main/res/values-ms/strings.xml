@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="attribution_title">Sumber data dan lesen</string>
+    <string name="action_back">Kembali</string>
+    <string name="attribution_osm">Data peta © penyumbang OpenStreetMap, tersedia di bawah Lesen Pangkalan Data Terbuka (ODbL).</string>
+    <string name="attribution_openfreemap">Jubin peta oleh OpenFreeMap © OpenMapTiles, dibina daripada data OpenStreetMap.</string>
+    <string name="attribution_tolls">Kadar tol diperoleh daripada Lembaga Lebuhraya Malaysia dan pengendali lebuh raya; anggaran sahaja.</string>
+</resources>

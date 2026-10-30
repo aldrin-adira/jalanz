@@ -60,6 +60,7 @@ Roads APIs must not be used in conjunction with a non-Google map. Because this a
 3. "Includes data from Foursquare Open Source Places © Foursquare Labs, Inc., Apache License 2.0" (if used).
 4. "Toll rates sourced from Lembaga Lebuhraya Malaysia and highway operators; estimates only."
 5. Traffic provider attribution as required.
+6. Personal-use track (DS-15–17): "Map tiles by OpenFreeMap © OpenMapTiles, built from OpenStreetMap data." Add Photon and FOSSGIS lines when search and routing land. Shown in `:feature:settings` `AttributionScreen` since WP 1.14.
 
 ## 6. Legal context checklist (Malaysia) `[VERIFY]`
 - PDPA 2010 as amended by the Personal Data Protection (Amendment) Act 2024: data protection officer
