@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -48,13 +49,15 @@ import io.github.aldrinadira.jalanz.core.searchclient.Place
 import io.github.aldrinadira.jalanz.core.searchclient.SharedLocation
 import io.github.aldrinadira.jalanz.core.searchclient.formatCoordinates
 import io.github.aldrinadira.jalanz.core.searchclient.parseSharedLocation
+import io.github.aldrinadira.jalanz.feature.routepreview.RoutePreviewRoute
+import io.github.aldrinadira.jalanz.feature.routepreview.RoutePreviewViewModel
 import io.github.aldrinadira.jalanz.feature.search.SearchRoute
 import io.github.aldrinadira.jalanz.feature.settings.AttributionScreen
 import kotlinx.coroutines.launch
 import org.maplibre.android.geometry.LatLng
 import io.github.aldrinadira.jalanz.core.designsystem.R as DesignR
 
-private enum class Screen { MAP, SEARCH, ATTRIBUTION }
+private enum class Screen { MAP, SEARCH, ROUTES, PICK_ORIGIN, ATTRIBUTION }
 
 private enum class ShareProblem { NEEDS_COORDINATES, NOT_FOUND }
 
@@ -64,7 +67,7 @@ private val PlaceSaver = Saver<Place?, List<Any>>(
 )
 
 /**
- * Top-level phone UI. Three screens for now, so plain state instead of a navigation library.
+ * Top-level phone UI. A handful of screens, so plain state instead of a navigation library.
  * [sharedInput] is text or a link another app shared with Jalanz (FR-17); it is shown as a pin once handled.
  */
 @Composable
@@ -72,6 +75,8 @@ fun JalanzApp(sharedInput: String? = null, onSharedInputHandled: () -> Unit = {}
     var screen by rememberSaveable { mutableStateOf(Screen.MAP) }
     var selected by rememberSaveable(stateSaver = PlaceSaver) { mutableStateOf<Place?>(null) }
     var shareProblem by rememberSaveable { mutableStateOf<ShareProblem?>(null) }
+    // Activity-scoped, so the route screen and the start-point search share it.
+    val routes: RoutePreviewViewModel = hiltViewModel()
 
     val sharedName = stringResource(R.string.shared_location)
     LaunchedEffect(sharedInput) {
@@ -87,12 +92,16 @@ fun JalanzApp(sharedInput: String? = null, onSharedInputHandled: () -> Unit = {}
         onSharedInputHandled()
     }
 
-    if (screen != Screen.MAP) BackHandler { screen = Screen.MAP }
+    if (screen != Screen.MAP) BackHandler { screen = if (screen == Screen.PICK_ORIGIN) Screen.ROUTES else Screen.MAP }
     when (screen) {
         Screen.MAP -> MapHome(
             selected = selected,
             onSelect = { selected = it },
             onSearch = { screen = Screen.SEARCH },
+            onDirections = { place ->
+                routes.planTo(place)
+                screen = Screen.ROUTES
+            },
             onShowAttribution = { screen = Screen.ATTRIBUTION },
         )
         Screen.SEARCH -> SearchRoute(
@@ -101,6 +110,19 @@ fun JalanzApp(sharedInput: String? = null, onSharedInputHandled: () -> Unit = {}
                 screen = Screen.MAP
             },
             onBack = { screen = Screen.MAP },
+        )
+        Screen.ROUTES -> RoutePreviewRoute(
+            onBack = { screen = Screen.MAP },
+            onPickOrigin = { screen = Screen.PICK_ORIGIN },
+            viewModel = routes,
+        )
+        Screen.PICK_ORIGIN -> SearchRoute(
+            onPlaceSelected = { place ->
+                routes.setOrigin(place)
+                screen = Screen.ROUTES
+            },
+            onBack = { screen = Screen.ROUTES },
+            placeholder = stringResource(R.string.choose_start),
         )
         Screen.ATTRIBUTION -> AttributionScreen(onBack = { screen = Screen.MAP })
     }
@@ -132,6 +154,7 @@ private fun MapHome(
     selected: Place?,
     onSelect: (Place?) -> Unit,
     onSearch: () -> Unit,
+    onDirections: (Place) -> Unit,
     onShowAttribution: () -> Unit,
     viewModel: MapHomeViewModel = hiltViewModel(),
 ) {
@@ -170,7 +193,12 @@ private fun MapHome(
         ) {
             SnackbarHost(snackbar)
             if (selected != null) {
-                SelectedPlaceCard(place = selected, onSave = { saving = selected }, onClose = { onSelect(null) })
+                SelectedPlaceCard(
+                    place = selected,
+                    onDirections = { onDirections(selected) },
+                    onSave = { saving = selected },
+                    onClose = { onSelect(null) },
+                )
             }
         }
     }
@@ -208,23 +236,29 @@ private fun SearchBox(onClick: () -> Unit, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun SelectedPlaceCard(place: Place, onSave: () -> Unit, onClose: () -> Unit) {
+private fun SelectedPlaceCard(place: Place, onDirections: () -> Unit, onSave: () -> Unit, onClose: () -> Unit) {
     Surface(
         shape = MaterialTheme.shapes.large,
         tonalElevation = 3.dp,
         shadowElevation = 6.dp,
         modifier = Modifier.fillMaxWidth(),
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(start = 16.dp, top = 12.dp, bottom = 12.dp)) {
-            Column(Modifier.weight(1f)) {
-                Text(place.name, style = MaterialTheme.typography.titleMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                if (place.detail.isNotEmpty()) {
-                    Text(place.detail, style = MaterialTheme.typography.bodyMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
+        Column(Modifier.padding(start = 16.dp, top = 12.dp, bottom = 12.dp, end = 4.dp)) {
+            Row(verticalAlignment = Alignment.Top) {
+                Column(Modifier.weight(1f)) {
+                    Text(place.name, style = MaterialTheme.typography.titleMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    if (place.detail.isNotEmpty()) {
+                        Text(place.detail, style = MaterialTheme.typography.bodyMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    }
+                }
+                IconButton(onClick = onClose) {
+                    Icon(painterResource(DesignR.drawable.ic_close), stringResource(R.string.action_close))
                 }
             }
-            TextButton(onClick = onSave) { Text(stringResource(R.string.action_save)) }
-            IconButton(onClick = onClose) {
-                Icon(painterResource(DesignR.drawable.ic_close), stringResource(R.string.action_close))
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 8.dp)) {
+                Button(onClick = onDirections) { Text(stringResource(R.string.action_directions)) }
+                Spacer(Modifier.width(8.dp))
+                TextButton(onClick = onSave) { Text(stringResource(R.string.action_save)) }
             }
         }
     }

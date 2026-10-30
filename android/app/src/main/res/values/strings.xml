@@ -16,4 +16,6 @@
     <string name="share_needs_coordinates">This link doesn\'t include the place\'s coordinates, and Jalanz doesn\'t ask Google to look them up. In Google Maps, long-press the spot, copy the coordinates shown at the top, and paste them into Jalanz search.</string>
     <string name="share_not_found_title">No location found</string>
     <string name="share_not_found">Jalanz couldn\'t find a location in what was shared.</string>
+    <string name="action_directions">Directions</string>
+    <string name="choose_start">Choose a starting point</string>
 </resources>

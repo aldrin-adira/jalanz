@@ -17,6 +17,7 @@ dependencies {
     implementation(project(":core:map"))
     implementation(project(":feature:settings"))
     implementation(project(":feature:search"))
+    implementation(project(":feature:route-preview"))
     implementation(project(":core:search-client"))
     implementation(project(":core:data"))
     implementation(libs.androidx.activity.compose)

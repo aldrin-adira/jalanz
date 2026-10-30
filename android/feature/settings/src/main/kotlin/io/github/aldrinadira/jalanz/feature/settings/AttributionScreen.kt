@@ -26,6 +26,7 @@ private val attributionLines = listOf(
     R.string.attribution_osm,
     R.string.attribution_openfreemap,
     R.string.attribution_photon,
+    R.string.attribution_valhalla,
     R.string.attribution_tolls,
 )
 

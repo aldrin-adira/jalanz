@@ -17,15 +17,25 @@ import org.maplibre.android.MapLibre
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.camera.CameraUpdateFactory
 import org.maplibre.android.geometry.LatLng
+import org.maplibre.android.geometry.LatLngBounds
 import org.maplibre.android.maps.MapView
 import org.maplibre.android.maps.Style
+import org.maplibre.android.style.expressions.Expression
 import org.maplibre.android.style.layers.CircleLayer
+import org.maplibre.android.style.layers.LineLayer
+import org.maplibre.android.style.layers.Property
 import org.maplibre.android.style.layers.PropertyFactory.circleColor
 import org.maplibre.android.style.layers.PropertyFactory.circleRadius
 import org.maplibre.android.style.layers.PropertyFactory.circleStrokeColor
 import org.maplibre.android.style.layers.PropertyFactory.circleStrokeWidth
+import org.maplibre.android.style.layers.PropertyFactory.lineCap
+import org.maplibre.android.style.layers.PropertyFactory.lineColor
+import org.maplibre.android.style.layers.PropertyFactory.lineJoin
+import org.maplibre.android.style.layers.PropertyFactory.lineWidth
 import org.maplibre.android.style.sources.GeoJsonSource
+import org.maplibre.geojson.Feature
 import org.maplibre.geojson.FeatureCollection
+import org.maplibre.geojson.LineString
 import org.maplibre.geojson.Point
 
 /**
@@ -47,15 +57,28 @@ private const val PIN_SOURCE = "jalanz-pin"
 private const val PIN_LAYER = "jalanz-pin"
 private const val PIN_ZOOM = 15.0
 
+private const val ROUTE_SOURCE = "jalanz-routes"
+private const val ROUTE_ALTERNATE_LAYER = "jalanz-routes-alternate"
+private const val ROUTE_SELECTED_LAYER = "jalanz-routes-selected"
+private const val ROUTE_START_LAYER = "jalanz-routes-start"
+private const val SELECTED = "selected"
+
+/** Space kept clear around routes when the camera fits them, so panels on top don't hide them. */
+data class MapInsets(val left: Int = 0, val top: Int = 0, val right: Int = 0, val bottom: Int = 0)
+
 /**
  * Full-screen MapLibre map that follows the system light/dark setting. Shared later by phone and car (06 §2).
  * When [pin] is set the map shows a marker there and moves the camera to it. [onLongPress] gets the pressed point.
+ * [routes] are drawn with [selectedRoute] highlighted, and the camera fits them inside [routeInsets] (pixels).
  */
 @Composable
 fun JalanzMap(
     modifier: Modifier = Modifier,
     pin: LatLng? = null,
     onLongPress: (LatLng) -> Unit = {},
+    routes: List<List<LatLng>> = emptyList(),
+    selectedRoute: Int = 0,
+    routeInsets: MapInsets = MapInsets(),
     darkTheme: Boolean = isSystemInDarkTheme(),
 ) {
     val context = LocalContext.current
@@ -76,18 +99,67 @@ fun JalanzMap(
     MapViewLifecycle(mapView)
 
     val currentPin by rememberUpdatedState(pin)
+    val currentRoutes by rememberUpdatedState(routes)
+    val currentSelected by rememberUpdatedState(selectedRoute)
     val styleUrl = if (darkTheme) MapStyles.DARK else MapStyles.LIGHT
     LaunchedEffect(mapView, styleUrl) {
-        // A new style drops our layers, so the pin is drawn again once it has loaded.
-        mapView.getMapAsync { map -> map.setStyle(styleUrl) { style -> style.showPin(currentPin) } }
+        // A new style drops our layers, so routes and pin are drawn again once it has loaded.
+        mapView.getMapAsync { map ->
+            map.setStyle(styleUrl) { style ->
+                style.showRoutes(currentRoutes, currentSelected)
+                style.showPin(currentPin)
+            }
+        }
     }
     LaunchedEffect(mapView, pin) {
         mapView.getMapAsync { map ->
             map.style?.takeIf { it.isFullyLoaded }?.showPin(pin)
-            if (pin != null) map.animateCamera(CameraUpdateFactory.newLatLngZoom(pin, PIN_ZOOM))
+            if (pin != null && currentRoutes.isEmpty()) map.animateCamera(CameraUpdateFactory.newLatLngZoom(pin, PIN_ZOOM))
+        }
+    }
+    LaunchedEffect(mapView, routes, selectedRoute) {
+        mapView.getMapAsync { map -> map.style?.takeIf { it.isFullyLoaded }?.showRoutes(routes, selectedRoute) }
+    }
+    LaunchedEffect(mapView, routes, routeInsets) {
+        val all = routes.flatten()
+        if (all.size < 2) return@LaunchedEffect
+        val bounds = LatLngBounds.Builder().includes(all).build()
+        mapView.getMapAsync { map ->
+            map.animateCamera(
+                CameraUpdateFactory.newLatLngBounds(bounds, routeInsets.left, routeInsets.top, routeInsets.right, routeInsets.bottom),
+            )
         }
     }
     AndroidView(factory = { mapView }, modifier = modifier)
+}
+
+/** Alternates in grey under the selected route in Jalanz blue, plus a small dot where the route starts. */
+private fun Style.showRoutes(routes: List<List<LatLng>>, selected: Int) {
+    val source = getSourceAs<GeoJsonSource>(ROUTE_SOURCE) ?: GeoJsonSource(ROUTE_SOURCE).also { source ->
+        addSource(source)
+        val isSelected = Expression.eq(Expression.get(SELECTED), Expression.literal(true))
+        val layers = listOf(
+            LineLayer(ROUTE_ALTERNATE_LAYER, ROUTE_SOURCE).withProperties(
+                lineColor("#8A9AA5"), lineWidth(6f), lineCap(Property.LINE_CAP_ROUND), lineJoin(Property.LINE_JOIN_ROUND),
+            ).withFilter(Expression.all(Expression.eq(Expression.geometryType(), "LineString"), Expression.not(isSelected))),
+            LineLayer(ROUTE_SELECTED_LAYER, ROUTE_SOURCE).withProperties(
+                lineColor("#00658F"), lineWidth(8f), lineCap(Property.LINE_CAP_ROUND), lineJoin(Property.LINE_JOIN_ROUND),
+            ).withFilter(Expression.all(Expression.eq(Expression.geometryType(), "LineString"), isSelected)),
+            CircleLayer(ROUTE_START_LAYER, ROUTE_SOURCE).withProperties(
+                circleRadius(6f), circleColor("#FFFFFF"), circleStrokeWidth(3f), circleStrokeColor("#00658F"),
+            ).withFilter(Expression.eq(Expression.geometryType(), "Point")),
+        )
+        // Keep the destination pin on top when it already exists.
+        layers.forEach { layer -> if (getLayer(PIN_LAYER) != null) addLayerBelow(layer, PIN_LAYER) else addLayer(layer) }
+    }
+    // Selected route last so it is drawn above the alternates where they overlap.
+    val order = routes.indices.sortedBy { it == selected }
+    val lines = order.map { i ->
+        Feature.fromGeometry(LineString.fromLngLats(routes[i].map { Point.fromLngLat(it.longitude, it.latitude) }))
+            .apply { addBooleanProperty(SELECTED, i == selected) }
+    }
+    val start = routes.getOrNull(selected)?.firstOrNull()?.let { Feature.fromGeometry(Point.fromLngLat(it.longitude, it.latitude)) }
+    source.setGeoJson(FeatureCollection.fromFeatures(lines + listOfNotNull(start)))
 }
 
 private fun Style.showPin(pin: LatLng?) {
@@ -103,7 +175,7 @@ private fun Style.showPin(pin: LatLng?) {
         )
     }
     val points = listOfNotNull(pin?.let { Point.fromLngLat(it.longitude, it.latitude) })
-    source.setGeoJson(FeatureCollection.fromFeatures(points.map { org.maplibre.geojson.Feature.fromGeometry(it) }))
+    source.setGeoJson(FeatureCollection.fromFeatures(points.map { Feature.fromGeometry(it) }))
 }
 
 /** Forwards the screen's lifecycle to [mapView], and tears it down when it leaves the composition. */

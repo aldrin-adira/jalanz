@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="route_back">Back</string>
+    <string name="route_from">From</string>
+    <string name="route_to">To</string>
+    <string name="route_choose_start">Choose a starting point</string>
+    <string name="route_needs_origin">Jalanz can\'t use your location yet. Pick where you\'re starting from, or set Home in search to start there by default.</string>
+    <string name="route_avoid_tolls">Avoid tolls</string>
+    <string name="route_no_live_traffic">Times use typical speeds. No live traffic yet.</string>
+    <string name="route_failed">Couldn\'t plan a route. Check your connection, or try a point closer to a road.</string>
+    <string name="route_retry">Try again</string>
+    <string name="route_fastest">Fastest</string>
+    <string name="route_duration_hm">%1$d h %2$d min</string>
+    <string name="route_duration_m">%1$d min</string>
+    <string name="route_tolls_unknown">Tolls (amount not loaded yet)</string>
+    <string name="route_no_tolls">No tolls</string>
+</resources>
