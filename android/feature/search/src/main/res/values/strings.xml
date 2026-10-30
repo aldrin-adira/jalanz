@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">Search places</string>
+    <string name="search_back">Back</string>
+    <string name="search_clear">Clear search</string>
+    <string name="search_clear_saved">Remove %1$s</string>
+    <string name="search_home">Home</string>
+    <string name="search_work">Work</string>
+    <string name="search_not_set">Not set. Search for a place, then use ⋮ to save it.</string>
+    <string name="search_recent">Recent</string>
+    <string name="search_more">More options</string>
+    <string name="search_set_home">Set as Home</string>
+    <string name="search_set_work">Set as Work</string>
+    <string name="search_no_results">No places found in Peninsular Malaysia.</string>
+    <string name="search_failed">Search isn\'t available right now. Check your connection.</string>
+</resources>

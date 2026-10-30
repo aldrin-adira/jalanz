@@ -16,5 +16,7 @@ dependencies {
     implementation(project(":core:drive"))
     implementation(project(":core:map"))
     implementation(project(":feature:settings"))
+    implementation(project(":feature:search"))
+    implementation(project(":core:search-client"))
     implementation(libs.androidx.activity.compose)
 }

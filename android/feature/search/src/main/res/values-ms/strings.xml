@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">Cari tempat</string>
+    <string name="search_back">Kembali</string>
+    <string name="search_clear">Kosongkan carian</string>
+    <string name="search_clear_saved">Buang %1$s</string>
+    <string name="search_home">Rumah</string>
+    <string name="search_work">Tempat kerja</string>
+    <string name="search_not_set">Belum ditetapkan. Cari tempat, kemudian guna ⋮ untuk menyimpannya.</string>
+    <string name="search_recent">Terkini</string>
+    <string name="search_more">Pilihan lain</string>
+    <string name="search_set_home">Tetapkan sebagai Rumah</string>
+    <string name="search_set_work">Tetapkan sebagai Tempat kerja</string>
+    <string name="search_no_results">Tiada tempat dijumpai di Semenanjung Malaysia.</string>
+    <string name="search_failed">Carian tidak tersedia sekarang. Semak sambungan anda.</string>
+</resources>
