@@ -272,6 +272,10 @@ fun TollEstimate.toExpectedForm() = ExpectedEstimate(
                 type = "closed_pair", networkId = item.networkId.value, entry = item.entry.value,
                 exit = item.exit.value, chargedSen = item.charged.value, discountEventId = item.discountEventId?.value,
             )
+            is TollItem.NotCharged -> ExpectedItem(type = "not_charged", plazaId = item.plazaId.value, chargedSen = 0)
+            is TollItem.MissingFare -> ExpectedItem(
+                type = "missing_fare", plazaId = item.plazaId.value, entry = item.entry?.value, chargedSen = null,
+            )
             is TollItem.ClosedUnknownEntry -> ExpectedItem(
                 type = "closed_unknown_entry", networkId = item.networkId.value, exit = item.exit.value,
                 chargedSen = null, rangeSen = listOf(item.range.min.value, item.range.max.value),
