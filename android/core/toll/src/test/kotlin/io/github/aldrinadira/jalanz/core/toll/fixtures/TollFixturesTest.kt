@@ -25,7 +25,10 @@ class TollFixturesTest(private val fixture: TollFixture, private val case: Fixtu
 
     companion object {
         /** Case IDs the engine must pass. WP 1.4 adds F1/F3/F4/F6-F9 (detection is tested directly in WP 1.3), WP 1.5 F2a-d/F5/F10. */
-        val ENGINE_READY: Set<String> = emptySet()
+        val ENGINE_READY: Set<String> = setOf(
+            "F1-class1", "F1-class2", "F1-class3", "F1-class4", "F1-class5",
+            "F3-before", "F3-after", "F4-eastbound", "F4-westbound", "F6", "F7", "F8", "F9",
+        )
 
         @JvmStatic
         @Parameterized.Parameters(name = "{1}")
