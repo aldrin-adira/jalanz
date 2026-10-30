@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="attribution_title">Data sources and licences</string>
+    <string name="action_back">Back</string>
+    <!-- Wording from spec 05 §5. -->
+    <string name="attribution_osm">Map data © OpenStreetMap contributors, available under the Open Database License (ODbL).</string>
+    <string name="attribution_openfreemap">Map tiles by OpenFreeMap © OpenMapTiles, built from OpenStreetMap data.</string>
+    <string name="attribution_tolls">Toll rates sourced from Lembaga Lebuhraya Malaysia and highway operators; estimates only.</string>
+</resources>

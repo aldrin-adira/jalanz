@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- No permissions yet. Location arrives with the drive service (spec/06 §3.3).
+<!-- Only INTERNET (from :core:map) for now. Location arrives with the drive service (spec/06 §3.3).
      Backup is off so local trips and places never leave the phone (NFR-02):
      allowBackup="false" up to Android 11, dataExtractionRules from Android 12,
      so fullBackupContent is not needed (DataExtractionRules lint ignored). -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- MapLibre's library manifest asks for these; Jalanz does not use them yet. Location is only allowed
+         inside the user-started drive service (AGENTS.md privacy rule); WP 2.1 declares it there. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" tools:node="remove" />
 
     <application
         android:name=".JalanzApplication"

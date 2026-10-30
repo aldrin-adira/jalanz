@@ -14,5 +14,7 @@ android {
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:drive"))
+    implementation(project(":core:map"))
+    implementation(project(":feature:settings"))
     implementation(libs.androidx.activity.compose)
 }
