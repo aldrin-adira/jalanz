@@ -1,11 +1,13 @@
-# CI for every push and pull request (spec/09-git-workflow.md §7.1, §10).
-# Each project job runs only when that project exists and its files changed,
-# so the pipeline is green on an empty repo and stays inside free minutes.
+# CI (spec/09-git-workflow.md §7.1, §10). Each project job runs only when that
+# project exists and its files changed, so the pipeline stays inside free minutes.
+#
+# Manual-only for now (owner decision 30 Oct 2026, personal-use track): the
+# GitHub account's Actions are blocked by a billing lock, and the same checks run
+# locally before every merge (AGENTS.md §4). To switch CI back on for every push
+# and pull request, add `push:` and `pull_request:` under `on:` again.
 name: CI
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
 
 permissions:
