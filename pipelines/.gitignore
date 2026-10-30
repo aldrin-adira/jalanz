@@ -1,0 +1,5 @@
+# Crawl output: raw snapshots, DuckDB database and exports (never commit; AGENTS.md §2)
+data/
+*.duckdb
+*.duckdb.wal
+*.egg-info/
