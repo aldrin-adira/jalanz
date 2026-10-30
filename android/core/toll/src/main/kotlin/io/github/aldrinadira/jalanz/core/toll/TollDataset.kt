@@ -24,6 +24,7 @@ class TollDataset(
     private val closedFaresByKey = closedFares.groupBy {
         ClosedFareKey(it.networkId, it.entryPlazaId, it.exitPlazaId, it.vehicleClass)
     }
+    private val closedFaresByExit = closedFares.groupBy { ExitKey(it.networkId, it.exitPlazaId, it.vehicleClass) }
     private val systemByHighway = systemPeriods.groupBy { it.highwayId }
     private val classByProfile = classMappings.associateBy({ it.profile to it.scheme }, { it.assignment })
 
@@ -46,6 +47,12 @@ class TollDataset(
         t: Instant,
     ): ClosedFare? = closedFaresByKey[ClosedFareKey(networkId, entry, exit, vehicleClass)].orEmpty().effectiveAt(t)
 
+    /** Every fare to [exit] effective at [t], one per entry plaza: the range when the entry is unknown (F5). */
+    fun closedFaresToExitAt(networkId: NetworkId, exit: PlazaId, vehicleClass: VehicleClass, t: Instant): List<ClosedFare> =
+        closedFaresByExit[ExitKey(networkId, exit, vehicleClass)].orEmpty()
+            .groupBy { it.entryPlazaId }.values
+            .mapNotNull { it.effectiveAt(t) }
+
     fun systemAt(highwayId: HighwayId, t: Instant): HighwaySystemPeriod? =
         systemByHighway[highwayId].orEmpty().effectiveAt(t)
 
@@ -53,6 +60,8 @@ class TollDataset(
     fun classFor(profile: VehicleProfile, scheme: ClassSchemeId): ClassAssignment? = classByProfile[profile to scheme]
 
     private data class OpenFareKey(val plazaId: PlazaId, val vehicleClass: VehicleClass)
+
+    private data class ExitKey(val networkId: NetworkId, val exit: PlazaId, val vehicleClass: VehicleClass)
 
     private data class ClosedFareKey(
         val networkId: NetworkId,

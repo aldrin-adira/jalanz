@@ -1,5 +1,6 @@
 package io.github.aldrinadira.jalanz.core.toll
 
+import java.time.Duration
 import java.time.Instant
 
 /**
@@ -100,14 +101,22 @@ class TollEstimator(private val dataset: TollDataset) {
         val trip = Trip(profile)
         detector.detect(path).forEach(trip::pass)
         trip.finish()
+
+        val oldestVerified = trip.verifiedAt.minOrNull()
+        if (oldestVerified != null && oldestVerified.isBefore(now.minus(MAX_FARE_AGE))) {
+            trip.lower(Confidence.MEDIUM)
+        }
+        val known = trip.items.mapNotNull { it.charged }.sum()
+        val ranges = trip.items.filterIsInstance<TollItem.ClosedUnknownEntry>().map { it.range }
+        val range = if (ranges.isEmpty()) null else SenRange(known + ranges.map { it.min }.sum(), known + ranges.map { it.max }.sum())
         return TollEstimate(
-            total = trip.items.mapNotNull { it.charged }.sum(),
-            range = null,
+            total = range?.max ?: known,
+            range = range,
             confidence = trip.confidence,
             items = trip.items,
             warnings = trip.warnings,
             datasetVersion = dataset.version,
-            verifiedAt = trip.verifiedAt.minOrNull(),
+            verifiedAt = oldestVerified,
         )
     }
 
@@ -153,7 +162,15 @@ class TollEstimator(private val dataset: TollDataset) {
             val fare = dataset.openFareAt(crossing.plazaId, crossing.inWayId, vehicleClass, crossing.at)
             if (fare == null) return missingFare(crossing, entry = null)
             verifiedAt += fare.verifiedAt
-            items += TollItem.Open(crossing.plazaId, crossing.at, vehicleClass, fare.amount, fare.amount, null)
+            val discount = dataset.discountFor(dataset.plaza(crossing.plazaId)!!, null, vehicleClass, crossing.at)
+            items += TollItem.Open(
+                plazaId = crossing.plazaId,
+                at = crossing.at,
+                vehicleClass = vehicleClass,
+                base = fare.amount,
+                charged = discount?.applyTo(fare.amount) ?: fare.amount,
+                discountEventId = discount?.id,
+            )
         }
 
         private fun enter(network: NetworkId, crossing: PlazaCrossing) {
@@ -167,15 +184,12 @@ class TollEstimator(private val dataset: TollDataset) {
         /** Closed trips are priced at the exit plaza and exit time (transaction time, 04 §6, F8). */
         private fun exit(network: NetworkId, crossing: PlazaCrossing) {
             val entry = openEntries.remove(network)
-            if (entry == null) {
-                // Started inside the network (edge case 3). The LOW-confidence range arrives in WP 1.5.
-                warn("no entry plaza known for exit ${crossing.plazaId.value}")
-                return missingFare(crossing, entry = null)
-            }
+            if (entry == null) return exitWithUnknownEntry(network, crossing)
             val vehicleClass = chargedClass(crossing, entry.plazaId) ?: return
             val fare = dataset.closedFareAt(network, entry.plazaId, crossing.plazaId, vehicleClass, crossing.at)
             if (fare == null) return missingFare(crossing, entry.plazaId)
             verifiedAt += fare.verifiedAt
+            val discount = dataset.discountFor(dataset.plaza(crossing.plazaId)!!, network, vehicleClass, crossing.at)
             items += TollItem.ClosedPair(
                 networkId = network,
                 entry = entry.plazaId,
@@ -183,10 +197,25 @@ class TollEstimator(private val dataset: TollDataset) {
                 exitAt = crossing.at,
                 vehicleClass = vehicleClass,
                 base = fare.amount,
-                charged = fare.amount,
-                discountEventId = null,
+                charged = discount?.applyTo(fare.amount) ?: fare.amount,
+                discountEventId = discount?.id,
                 distanceKm = fare.distanceKm,
             )
+        }
+
+        /**
+         * Route started inside the network (edge case 3, F5): the fare is somewhere between the cheapest and dearest
+         * fare to this exit. Discounts are not applied to the range, so it can only over-state the toll.
+         */
+        private fun exitWithUnknownEntry(network: NetworkId, crossing: PlazaCrossing) {
+            warn("no entry plaza known for exit ${crossing.plazaId.value}")
+            val vehicleClass = chargedClass(crossing, entry = null) ?: return
+            val fares = dataset.closedFaresToExitAt(network, crossing.plazaId, vehicleClass, crossing.at)
+            if (fares.isEmpty()) return missingFare(crossing, entry = null)
+            fares.forEach { verifiedAt += it.verifiedAt }
+            val amounts = fares.map { it.amount }
+            items += TollItem.ClosedUnknownEntry(network, crossing.plazaId, crossing.at, SenRange(amounts.min(), amounts.max()))
+            lower(Confidence.LOW)
         }
 
         /** Class at the charging plaza's scheme; records a NotCharged or MissingFare item when there is none. */
@@ -215,8 +244,13 @@ class TollEstimator(private val dataset: TollDataset) {
             warnings += message
         }
 
-        private fun lower(to: Confidence) {
+        fun lower(to: Confidence) {
             confidence = minOf(confidence, to)
         }
+    }
+
+    private companion object {
+        /** Fares verified longer ago than this make the estimate at most MEDIUM (04 §6, F10). */
+        val MAX_FARE_AGE: Duration = Duration.ofDays(30)
     }
 }

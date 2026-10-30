@@ -308,6 +308,10 @@ for item in items:
      break                       // at most one discount per item unless an event says it stacks
 ```
 
+Clarified 30 Oct 2026 (WP 1.5): exclusions and plaza scopes are checked against the **charging** plaza (the open
+plaza, or the exit of a closed pair). Discounts are not applied to an unknown-entry range (F5), so a range can only
+over-state the toll. Implemented in `:core:toll` `Discounts.kt`.
+
 ### 6.2 Avoid-tolls and route comparison
 - Routing requests "avoid tolls" by excluding `toll=yes` ways and toll nodes in Valhalla costing.
 - For each alternative, show `toll_total` and the difference vs the fastest route; reason text:
