@@ -65,6 +65,11 @@ project is created (WP 0.3 Android, WP 0.4 backend).
 ./gradlew assembleDebug testDebugUnitTest :core:toll:test lint   # what CI runs, plus the debug APK
 ./gradlew :app:installDebug                                       # install on a connected phone/emulator
 ```
+**CI is manual-only for now** (owner decision 2026-10-30, personal-use track): `.github/workflows/ci.yml` runs only
+when started by hand in GitHub Actions. Until it is switched back on, the local commands above stand in for the
+"CI is green" item of the merge checklist (`spec/09-git-workflow.md` §8): run them before every merge and record
+the results in the commit body. Switch CI back on before anyone else contributes or tests the app.
+
 If Gradle fails with `PKIX path building failed` on a Windows PC whose HTTPS is inspected by security
 software, run it with `JAVA_TOOL_OPTIONS=-Djavax.net.ssl.trustStoreType=Windows-ROOT` (local only; never
 commit it).
