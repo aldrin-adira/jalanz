@@ -9,7 +9,7 @@ All entries checked 23 Oct 2026. Licences and terms change — `[VERIFY]` before
 | DS-01 | OpenStreetMap (Geofabrik extract covering Malaysia, Singapore, Brunei) | Roads, routing graph, base map, addresses, toll booth/gantry nodes | ODbL 1.0 | "© OpenStreetMap contributors" on map + attribution screen | Weekly |
 | DS-02 | Overture Maps — places theme | POI search | Multi-licence per record: CDLA-Permissive-2.0 (most sources), **Apache-2.0** for Foursquare-sourced records, CC0-1.0 for AllThePlaces records | "© Overture Maps Foundation"; ship Apache-2.0 text + Foursquare NOTICE if Foursquare records are used | Monthly (Overture releases) |
 | DS-03 | Foursquare Open Source Places (direct) | Optional extra POIs | Apache-2.0 | Licence + NOTICE | Monthly |
-| DS-04 | LLM toll-rate portal (kadartol.llm.gov.my) | Official open fares and closed entry→exit fares by class, with distance | Government website — **no explicit open-data licence found** `[VERIFY]`; seek permission/data-sharing | Cite "Lembaga Lebuhraya Malaysia" as source in toll details | Nightly crawl |
+| DS-04 | LLM toll calculator: formerly kadartol.llm.gov.my, now the JSON API behind the "Kalkulator Tol" on www.llm.gov.my (`/Calculator/...`) | Official open fares and closed entry→exit fares by class, with distance | Government website — **no explicit open-data licence found** `[VERIFY]`; seek permission/data-sharing | Cite "Lembaga Lebuhraya Malaysia" as source in toll details | Nightly crawl |
 | DS-05 | Concessionaire calculators (PLUS, LPT2, others) | Cross-check fares | Website terms of each operator `[VERIFY]` | Cite operator | Weekly |
 | DS-06 | Official announcements (LLM, Works Ministry, Bernama) | Discounts, freezes, new plazas, effective dates | Facts are used, not text; link to source | Link in curator record | Daily watch |
 | DS-07 | Commercial traffic provider (e.g., TomTom Traffic Flow/Incidents) | Live speeds, incidents | Commercial API terms; free tier for development (≈2,500 non-tile + 50,000 tile requests/day) `[VERIFY]`; check terms on caching, display and mixing with OSM maps | As required by provider | Live (1–5 min) |
@@ -45,8 +45,10 @@ Roads APIs must not be used in conjunction with a non-Google map. Because this a
 - Respect `robots.txt` and site terms; stop and seek permission if disallowed.
 - Store raw snapshots so parsing can be re-run without re-fetching.
 - **Portal status (30 Oct 2026):** `kadartol.llm.gov.my` did not accept connections (timeout from Malaysia,
-  refused from abroad); the newest archived copy is from 9 Mar 2024. It is an ASP.NET form with no JSON API, no
-  `robots.txt` (404), no login and no CAPTCHA. Details: `pipelines/docs/llm-kadartol-portal.md` `[VERIFY]`.
+  refused from abroad); the newest archived copy is from 9 Mar 2024 (an ASP.NET form). The same calculator is now
+  served on `www.llm.gov.my` as a JSON API (`/Calculator/getHighway`, `getPlazaEnter`, `getPlazaExit`,
+  `getTollRate`); its `robots.txt` allows `/Calculator/`, no login, no CAPTCHA, no terms forbidding automated access.
+  The crawler (WP 1.7) uses that API. Details: `pipelines/docs/llm-kadartol-portal.md` `[VERIFY]` before release.
 - The crawler waits at least 3 s between requests (stricter than 1/s) and identifies itself as
   `Jalanz/0.0.1 (+https://github.com/aldrin-adira/jalanz)`; the project URL is the contact.
 - Long-term: request a machine-readable feed from LLM (the portal already exposes highway → plaza → fare +

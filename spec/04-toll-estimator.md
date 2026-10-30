@@ -179,7 +179,7 @@ flowchart LR
 ### 4.1 Sources and cadence
 | Source | What | Cadence | Notes |
 |---|---|---|---|
-| S1 LLM toll-rate portal (`kadartol.llm.gov.my`) | Highway → entry plaza → exit plaza → per-class fare + distance | Nightly full crawl (enumerate highways, then plaza pairs) | Official. Be polite: ≤1 request/s, identify the crawler, respect robots/terms `[VERIFY]`; prefer a formal data request to LLM. Parser tests from saved HTML. |
+| S1 LLM toll calculator (formerly `kadartol.llm.gov.my`, now the JSON API `www.llm.gov.my/Calculator/...`, 05 §3) | Highway → entry plaza → exit plaza → per-class fare + distance | Nightly full crawl (enumerate highways, then plaza pairs); PLUS alone is thousands of pairs, so runs are resumable | Official. Be polite: ≤1 request/s (crawler uses 3 s), identify the crawler, respect robots/terms `[VERIFY]`; prefer a formal data request to LLM. Parser tests from saved, trimmed JSON responses. |
 | S2 Concessionaire calculators (PLUS, LPT2, others) | Same, per operator | Weekly cross-check | Disagreement with S1 → review |
 | S3 Official announcements (LLM, Works Ministry, Bernama) | Rate changes, freezes, festive discounts, new plazas, de-tolling | Watch daily (RSS/keywords: "kadar tol", "diskaun tol", "toll discount", "plaza tol baharu") | Discounts are entered **manually** by a curator with source URL |
 | S4 OpenStreetMap | `barrier=toll_booth`, `highway=toll_gantry` nodes, `toll=*` ways | Weekly with the OSM build | Detect new/moved/removed plazas |
